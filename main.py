@@ -7,7 +7,12 @@ app.config['SECRET_KEY'] = 'x@uhg98(FUj9g8f9bz.s'
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('index.html', title='Главная')
+
+
+@app.route('/sign-in')
+def sign_in():
+    return render_template('sign_in.html', title='Вход')
 
 
 if __name__ == '__main__':

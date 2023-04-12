@@ -19,10 +19,16 @@
 
 {% extends "base.html" %}
 
+{% block nav %}
+    <li><a class="navig nav-link fw-bold py-1 px-0 active" aria-current="page" href="/">Главная</a></li>
+    <li><a class="navig nav-link fw-bold py-1 px-0" href="/sign-in"><i class="fa-regular fa-user fa-sm"></i> Войти</a></li>
+    <li><a class="navig nav-link fw-bold py-1 px-0" href="#">О нас</a></li>
+{% endblock %}
+
 {% block content %}
     <h1>Cover your page.</h1>
     <p class="lead">Cover is a one-page template for building simple and beautiful home pages. Download, edit the text, and add your own fullscreen background photo to make it your own.</p>
     <p class="lead">
-        <a href="#" class="btn btn-lg btn-light fw-bold border-white bg-white">Learn more</a>
+        <a href="#" class="hv-btn btn btn-lg btn-light fw-bold border-white">Learn more</a>
     </p>
 {% endblock %}

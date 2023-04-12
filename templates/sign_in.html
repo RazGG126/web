@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block nav %}
+    <li><a class="navig nav-link fw-bold py-1 px-0" aria-current="page" href="/">Главная</a></li>
+    <li><a class="navig nav-link fw-bold py-1 px-0 active" href="/sign-in"><i class="fa-regular fa-user fa-sm"></i> Войти</a></li>
+    <li><a class="navig nav-link fw-bold py-1 px-0" href="#">О нас</a></li>
+{% endblock %}
+
+
+{% block content %}
+    <form class="form-signin">
+        <h1 class="h2 mb-3 font-weight-normal">Вход в профиль</h1>
+        <label for="inputEmail" class="sr-only">Электронная почта</label>
+        <input type="email" id="inputEmail" class="form-control  mb-3" placeholder="Электронная почта" required="" autofocus="">
+        <label for="inputPassword" class="sr-only">Пароль</label>
+        <input type="password" id="inputPassword" class="form-control mb-3" placeholder="Пароль" required="">
+        <div class="checkbox mb-3">
+            <label>
+                <input type="checkbox" value="remember-me"> Запомнить меня
+            </label>
+        </div>
+        <button class="hv-btn btn btn-lg btn-light fw-bold border-white" type="submit">Войти</button>
+    </form>
+{% endblock %}

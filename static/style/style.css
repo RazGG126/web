@@ -48,11 +48,31 @@ body {
   border-bottom-color: rgba(255, 255, 255, .25);
 }
 
-.nav-masthead .nav-link + .nav-link {
+.navig{
   margin-left: 1rem;
 }
 
 .nav-masthead .active {
   color: #fff;
   border-bottom-color: #fff;
+}
+
+/*
+ * Buttons
+ */
+
+
+.hv-btn:hover{
+    background-color: #FFA500;
+    border: 1px solid #FFA500;
+}
+
+input[type='checkbox'] {
+    accent-color: #FFA500;
+}
+
+input[type='email']:focus, input[type='password']:focus
+{
+    border-color: rgba(255, 165, 0, 0.4);
+    box-shadow: 0 0 3px 3px rgba(255, 165, 0, 0.4);
 }
