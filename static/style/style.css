@@ -76,3 +76,16 @@ input[type='email']:focus, input[type='password']:focus
     border-color: rgba(255, 165, 0, 0.4);
     box-shadow: 0 0 3px 3px rgba(255, 165, 0, 0.4);
 }
+
+
+input[type='email'], input[type='password']
+{
+    width: 50%;
+}
+
+.form-signin{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
