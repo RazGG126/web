@@ -2,6 +2,7 @@ from flask import Flask
 from flask import render_template
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = 'x@uhg98(FUj9g8f9bz.s'
 
 
 @app.route('/')
