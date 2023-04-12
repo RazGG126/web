@@ -14,7 +14,8 @@
 
 body {
   text-shadow: 0 .05rem .1rem rgba(0, 0, 0, .5);
-  box-shadow: inset 0 0 5rem rgba(0, 0, 0, .5);
+  box-shadow: inset 0 0 5rem rgba(255, 165, 0, 0.2);
+  background: rgba(0, 0, 0, 1);
 }
 
 #particles-js{
@@ -27,7 +28,7 @@ body {
 }
 
 .cover-container {
-  max-width: 42em;
+  max-width: 54em;
   min-height: 100vh;
   position: relative;
   z-index: 2;
@@ -74,14 +75,22 @@ input[type='checkbox'] {
 input[type='email']:focus, input[type='password']:focus
 {
     border-color: rgba(255, 165, 0, 0.4);
-    box-shadow: 0 0 3px 3px rgba(255, 165, 0, 0.4);
+    box-shadow: 0 0 0px 3px rgba(255, 165, 0, 0.4);
 }
 
 
 input[type='email'], input[type='password']
 {
     width: 50%;
+
 }
+
+.lb{
+    width: 50%;
+    text-align: left;
+    font-size: 20px;
+}
+
 
 .form-signin{
     display: flex;
