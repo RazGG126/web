@@ -78,12 +78,20 @@ input[type='email']:focus, input[type='password']:focus
     box-shadow: 0 0 0px 3px rgba(255, 165, 0, 0.4);
 }
 
+.alert-reg{
+    background: red;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 2px;
+    font-size: 16px;
+}
 
 .lb{
     padding:0;
     text-align: left;
     font-size: 20px;
 }
+
 .form-input-reg-log{
     border: 1px solid #fff;
     outline: none;

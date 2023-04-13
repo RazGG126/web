@@ -9,58 +9,116 @@
 
 {% block content %}
 <form class="form-signin" action="" method="post">
-    <h1 class="h2 mb-5 font-weight-normal">Регистрация</h1>
+    <h1 class="h2 mb-5 mt-3 font-weight-normal">Вход в профиль</h1>
     {{ form.hidden_tag() }}
-    <div class="row">
-        <div class="col">
-            <label class="lb">{{ form.name.label }}</label>
-            {{ form.name(class="form-control") }}<br>
-            {% for error in form.name.errors %}
-                <p class="alert alert-danger" role="alert">
-                    {{ error }}
-                </p>
-            {% endfor %}
-        </div>
-        <div class="col">
-            <label class="lb">{{ form.surname.label }}</label>
-            {{ form.surname(class="form-control") }}<br>
-            {% for error in form.surname.errors %}
-                <p class="alert alert-danger" role="alert">
-                    {{ error }}
-                </p>
-            {% endfor %}
-        </div>
-    </div>
-    <label class="lb">{{ form.nick_name.label }}</label>
-    {{ form.nick_name(class="form-control") }}<br>
-    {% for error in form.nick_name.errors %}
-        <p class="alert alert-danger" role="alert">
-            {{ error }}
-        </p>
-    {% endfor %}
-    <label class="lb">{{ form.email.label }}</label>
-    {{ form.email(class="form-control mb-1 input-reg-log", type="email") }}
-    {% for error in form.email.errors %}
+    <div class="row justify-content-center"><label class="lb mb-1 col-12  col-sm-6 col-md-6 col-lg-6 col-xl-6">{{ form.name.label }}</label></div>
+    <div class="row justify-content-center">
+        {{ form.name(class="form-input-reg-log mb-3 col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6", placeholder="Введите имя") }}
+        {% for error in form.name.errors %}
             <p class="alert alert-danger" role="alert">
                 {{ error }}
             </p>
-    {% endfor %}
-    <label class="lb">{{ form.password.label }}</label>
-    {{ form.password(class="form-control mb-1 input-reg-log", type="password") }}
-    {% for error in form.password.errors %}
-        <p class="alert alert-danger" role="alert">
-            {{ error }}
-        </p>
-    {% endfor %}
-    <label class="lb">{{ form.password_again.label }}</label>
-    {{ form.password_again(class="form-control mb-5 input-reg-log col-12", type="password") }}
-    {% for error in form.password_again.errors %}
-        <p class="alert alert-danger" role="alert">
-            {{ error }}
-        </p>
-    {% endfor %}
-    <p>{{ form.submit(type="submit", class="hv-btn btn btn-lg btn-light fw-bold border-white mb-3") }}</p>
-    {{message}}
+        {% endfor %}
+    </div>
+    <div class="row justify-content-center"><label class="lb mb-1 col-12  col-sm-6 col-md-6 col-lg-6 col-xl-6">{{ form.surname.label }}</label></div>
+    <div class="row justify-content-center">
+        {{ form.surname(class="form-input-reg-log mb-3 col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6", placeholder="Введите фамилию") }}
+        {% for error in form.surname.errors %}
+            <p class="alert alert-danger" role="alert">
+                {{ error }}
+            </p>
+        {% endfor %}
+    </div>
+    <div class="row justify-content-center"><label class="lb mb-1 col-12  col-sm-6 col-md-6 col-lg-6 col-xl-6">{{ form.nick_name.label }}</label></div>
+    <div class="row justify-content-center">
+        {{ form.nick_name(class="form-input-reg-log mb-3 col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6", placeholder="Введите имя пользователя") }}
+        {% for error in form.nick_name.errors %}
+            <p class="alert alert-danger" role="alert">
+                {{ error }}
+            </p>
+        {% endfor %}
+    </div>
+    <div class="row justify-content-center"><label class="lb mb-1 col-12  col-sm-6 col-md-6 col-lg-6 col-xl-6">{{ form.email.label }}</label></div>
+    <div class="row justify-content-center">
+        {{ form.email(class="form-input-reg-log mb-3 col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6", placeholder="Введите электронную почту", type="email") }}
+        {% for error in form.email.errors %}
+            <p class="alert alert-danger" role="alert">
+                {{ error }}
+            </p>
+        {% endfor %}
+    </div>
+    <div class="row justify-content-center"><label class="lb mb-1 col-12  col-sm-6 col-md-6 col-lg-6 col-xl-6">{{ form.password.label }}</label></div>
+    <div class="row justify-content-center">
+        {{ form.password(class="form-input-reg-log mb-3 col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6", placeholder="Введите пароль", type="password") }}
+        {% for error in form.password.errors %}
+            <p class="alert alert-danger" role="alert">
+                {{ error }}
+            </p>
+        {% endfor %}
+    </div>
+    <div class="row justify-content-center"><label class="lb mb-1 col-12  col-sm-6 col-md-6 col-lg-6 col-xl-6">{{ form.password_again.label }}</label></div>
+    <div class="row justify-content-center">
+        {{ form.password_again(class="form-input-reg-log mb-4 col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6", placeholder="Введите пароль ещё раз", type="password") }}
+        {% for error in form.password_again.errors %}-->
+            <p class="alert alert-danger" role="alert">
+                {{ error }}
+            </p>
+        {% endfor %}
+    </div>
+<!--    <h1 class="h2 mb-5 font-weight-normal">Регистрация</h1>-->
+<!--    {{ form.hidden_tag() }}-->
+<!--    <div class="row">-->
+<!--        <div class="col justify-content-start">-->
+<!--            <label class="lb w-100">{{ form.name.label }}</label>-->
+<!--            {{ form.name(class="form-control") }}<br>-->
+<!--            {% for error in form.name.errors %}-->
+<!--                <p class="alert alert-danger" role="alert">-->
+<!--                    {{ error }}-->
+<!--                </p>-->
+<!--            {% endfor %}-->
+<!--        </div>-->
+<!--        <div class="col">-->
+<!--            <label class="lb w-100">{{ form.surname.label }}</label>-->
+<!--            {{ form.surname(class="form-control") }}<br>-->
+<!--            {% for error in form.surname.errors %}-->
+<!--                <p class="alert alert-danger" role="alert">-->
+<!--                    {{ error }}-->
+<!--                </p>-->
+<!--            {% endfor %}-->
+<!--        </div>-->
+<!--    </div>-->
+<!--    <label class="lb">{{ form.nick_name.label }}</label>-->
+<!--    {{ form.nick_name(class="form-control") }}<br>-->
+<!--    {% for error in form.nick_name.errors %}-->
+<!--        <p class="alert alert-danger" role="alert">-->
+<!--            {{ error }}-->
+<!--        </p>-->
+<!--    {% endfor %}-->
+<!--    <label class="lb">{{ form.email.label }}</label>-->
+<!--    {{ form.email(class="form-control mb-1 input-reg-log", type="email") }}-->
+<!--    {% for error in form.email.errors %}-->
+<!--            <p class="alert alert-danger" role="alert">-->
+<!--                {{ error }}-->
+<!--            </p>-->
+<!--    {% endfor %}-->
+<!--    <label class="lb">{{ form.password.label }}</label>-->
+<!--    {{ form.password(class="form-control mb-1 input-reg-log", type="password") }}-->
+<!--    {% for error in form.password.errors %}-->
+<!--        <p class="alert alert-danger" role="alert">-->
+<!--            {{ error }}-->
+<!--        </p>-->
+<!--    {% endfor %}-->
+<!--    <label class="lb">{{ form.password_again.label }}</label>-->
+<!--    {{ form.password_again(class="form-control mb-5 input-reg-log col-12", type="password") }}-->
+<!--    {% for error in form.password_again.errors %}-->
+<!--        <p class="alert alert-danger" role="alert">-->
+<!--            {{ error }}-->
+<!--        </p>-->
+<!--    {% endfor %}-->
+    {{ form.submit(type="submit", class="hv-btn btn btn-lg btn-light fw-bold border-white mb-3") }}<br>
+    {% if mess_aleft %}
+        <p class="alert-reg mb-2" role="alert">{{message}}</p>
+    {% endif %}
 </form>
 <p>Уже есть аккаунт? <a class="reg-login-text" href="/sign-in">Войти</a></p>
 {% endblock %}
