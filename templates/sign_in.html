@@ -8,17 +8,18 @@
 
 
 {% block content %}
-    <form class="form-signin">
+    <form class="form-signin" method="post">
         <h1 class="h2 mb-5 font-weight-normal">Вход в профиль</h1>
         <label class="lb mb-1" for="inputEmail">Электронная почта</label>
-        <input type="email" id="inputEmail" class="form-control mb-3" placeholder="Введите электронную почту" required="" autofocus="">
+        <input type="email" id="inputEmail" class="form-control mb-3 input-reg-log" placeholder="Введите электронную почту" required="" autofocus="">
         <label class="lb mb-1" for="inputPassword">Пароль</label>
-        <input type="password" id="inputPassword" class="form-control mb-5" placeholder="Введите пароль" required="">
+        <input type="password" id="inputPassword" class="form-control mb-5 input-reg-log" placeholder="Введите пароль" required="">
         <div class="checkbox mb-3">
             <label>
                 <input type="checkbox" value="remember-me"> Запомнить меня
             </label>
         </div>
-        <button class="hv-btn btn btn-lg btn-light fw-bold border-white" type="submit">Войти</button>
+        <button class="hv-btn btn btn-lg btn-light fw-bold border-white mb-3" type="submit">Войти</button>
     </form>
+<p>Нет аккаунта? <a class="reg-login-text" href="/register">Зарегистрироваться</a></p>
 {% endblock %}

@@ -79,14 +79,12 @@ input[type='email']:focus, input[type='password']:focus
 }
 
 
-input[type='email'], input[type='password']
-{
-    width: 50%;
-
+.input-reg-log{
+    width: 100%;
 }
 
 .lb{
-    width: 50%;
+    width: 100%;
     text-align: left;
     font-size: 20px;
 }
@@ -143,5 +141,14 @@ input[type='email'], input[type='password']
 .indicators{
     display: flex;
     justify-content: space-between;
+}
+
+.reg-login-text{
+    color: white;
+}
+
+.reg-login-text:hover{
+    cursor: pointer;
+    color: #FFA500;
 }
 
