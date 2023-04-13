@@ -79,24 +79,18 @@ input[type='email']:focus, input[type='password']:focus
 }
 
 
-.input-reg-log{
-    width: 100%;
-}
-
 .lb{
-    width: 100%;
+    padding:0;
     text-align: left;
     font-size: 20px;
 }
-
-
-.form-signin{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
+.form-input-reg-log{
+    border: 1px solid #fff;
+    outline: none;
+    border-radius: 5px;
+    padding-top: 5px;
+    padding-bottom:5px;
 }
-
 
 .head-title{
     margin-bottom: 100px;
