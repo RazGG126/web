@@ -1,5 +1,9 @@
 from flask import Flask
 from flask import render_template
+from data import db_session
+from data.users import User
+from data.quotes import Quote
+from data.comments import Comment
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'x@uhg98(FUj9g8f9bz.s'
@@ -21,4 +25,13 @@ def about():
 
 
 if __name__ == '__main__':
-    app.run(port=8080, host='127.0.0.1')
+    db_session.global_init("db/quotes.db")
+
+    db_sess = db_session.create_session()
+
+    quote = db_sess.query(Quote).filter(Quote.id == 2).first()
+    for comment in quote.comments:
+        print(comment)
+    db_sess.commit()
+
+    # app.run(port=8080, host='127.0.0.1')
