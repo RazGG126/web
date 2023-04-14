@@ -1,13 +1,9 @@
-from flask import Flask
 from flask import render_template, redirect
-from data import db_session
-from data.users import User
-from forms.user import RegisterForm
-from data.quotes import Quote
-from data.comments import Comment
 
-app = Flask(__name__)
-app.config['SECRET_KEY'] = 'x@uhg98(FUj9g8f9bz.s'
+from quote_web.forms.user import RegisterForm
+from quote_web.data.users import User
+
+from quote_web import app, db_session
 
 
 @app.route('/')
@@ -32,7 +28,11 @@ def reqister():
         if db_sess.query(User).filter(User.email == form.email.data).first():
             return render_template('register.html', title='Регистрация',
                                    form=form,
-                                   message="Такой пользователь уже есть", mess_aleft=True)
+                                   message="Такая почта уже зарегистрирована", mess_aleft=True)
+        if db_sess.query(User).filter(User.nick_name == form.nick_name.data).first():
+            return render_template('register.html', title='Регистрация',
+                                   form=form,
+                                   message="Имя пользователя уже используется", mess_aleft=True)
         user = User(
             name=form.name.data,
             surname=form.surname.data,
@@ -49,8 +49,3 @@ def reqister():
 @app.route('/about')
 def about():
     return render_template('about.html', title='О нас')
-
-
-if __name__ == '__main__':
-    db_session.global_init("db/quotes.db")
-    app.run(port=8080, host='127.0.0.1')
