@@ -9,17 +9,35 @@
 
 {% block content %}
     <form class="form-signin" method="post">
+        {{ form.hidden_tag() }}
         <h1 class="h2 mb-5 font-weight-normal">Вход в профиль</h1>
-        <div class="row justify-content-center"><label class="lb mb-1 col-12  col-sm-6 col-md-6 col-lg-6 col-xl-6" for="inputEmail">Электронная почта</label></div>
-        <div class="row justify-content-center"><input type="email" id="inputEmail" class="form-input-reg-log mb-3 col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6" placeholder="Введите электронную почту" required="" autofocus=""></div>
-        <div class="row justify-content-center"><label class="lb mb-1 col-12  col-sm-6 col-md-6 col-lg-6 col-xl-6" for="inputPassword">Пароль</label></div>
-        <div class="row justify-content-center"><input type="password" id="inputPassword" class="form-input-reg-log mb-5 col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6" placeholder="Введите пароль" required=""></div>
+        <div class="row justify-content-center"><label class="lb mb-1 col-12  col-sm-6 col-md-6 col-lg-6 col-xl-6">{{ form.email.label }}</label></div>
+        <div class="row justify-content-center">
+            {{ form.email(class="form-input-reg-log mb-3 col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6", placeholder="Введите электронную почту", type="email") }}
+            {% for error in form.email.errors %}
+                <div class="alert alert-danger" role="alert">
+                    {{ error }}
+                </div>
+            {% endfor %}
+        </div>
+        <div class="row justify-content-center"><label class="lb mb-1 col-12  col-sm-6 col-md-6 col-lg-6 col-xl-6">{{ form.password.label }}</label></div>
+        <div class="row justify-content-center">
+            {{ form.password(class="form-input-reg-log mb-5 col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6", placeholder="Введите пароль", type="password") }}
+            {% for error in form.password.errors %}
+                <div class="alert alert-danger" role="alert">
+                    {{ error }}
+                </div>
+            {% endfor %}
+        </div>
         <div class="checkbox mb-3">
             <label>
-                <input type="checkbox" value="remember-me"> Запомнить меня
+                 {{ form.remember_me() }} {{ form.remember_me.label }}
             </label>
         </div>
-        <button class="hv-btn btn btn-lg btn-light fw-bold border-white mb-3" type="submit">Войти</button>
+        {{ form.submit(type="submit", class="hv-btn btn btn-lg btn-light fw-bold border-white mb-3") }}<br>
+        {% if mess_aleft %}
+            <p class="alert-reg mb-2" role="alert">{{message}}</p>
+        {% endif %}
     </form>
 <p>Нет аккаунта? <a class="reg-login-text" href="/register">Зарегистрироваться</a></p>
 {% endblock %}
