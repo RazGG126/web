@@ -72,11 +72,6 @@ input[type='checkbox'] {
     accent-color: #FFA500;
 }
 
-input[type='email']:focus, input[type='password']:focus
-{
-    border-color: rgba(255, 165, 0, 0.4);
-    box-shadow: 0 0 0px 3px rgba(255, 165, 0, 0.4);
-}
 
 .alert-reg{
     background: red;
@@ -99,6 +94,13 @@ input[type='email']:focus, input[type='password']:focus
     padding-top: 5px;
     padding-bottom:5px;
 }
+
+.form-input-reg-log:focus
+{
+    border-color: rgba(255, 165, 0, 0.4);
+    box-shadow: 0 0 0px 3px rgba(255, 165, 0, 0.4);
+}
+
 
 .head-title{
     margin-bottom: 100px;
