@@ -13,7 +13,7 @@
 <body class="d-flex h-100 text-center text-white">
     <div id="particles-js"></div>
     <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
-        <header class="mb-auto hd-bs">
+        <header class="header mb-auto sticky-top hd-bs-bg-tr">
             <div>
               <h3 class="float-md-start mb-0">Quodis</h3>
                 <ul class="nav nav-masthead justify-content-center float-md-end">
@@ -32,5 +32,7 @@
     </div>
     <script type="text/javascript" src="{{url_for('static', filename='script/particles.js')}}"></script>
     <script type="text/javascript" src="{{url_for('static', filename='script/app.js')}}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src="{{url_for('static', filename='script/header_fixed.js')}}"></script>
 </body>
 </html>

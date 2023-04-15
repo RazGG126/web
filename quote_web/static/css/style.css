@@ -34,7 +34,6 @@ body {
   z-index: 2;
 }
 
-
 /*
  * Header
  */
@@ -57,6 +56,29 @@ body {
 .nav-masthead .active {
   color: #fff;
   border-bottom-color: #fff;
+}
+
+header{
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.hd-bs{
+    width: 100%;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    border-radius: 5px;
+}
+
+.hd-bs-bg-tr{
+   background: transparent;
+   transition: .4s;
+}
+
+.hd-bs-bg-bl{
+   background: #000;
+   transition: .4s;
+   box-shadow: 0 0 10px 5px #000;
 }
 
 /*
