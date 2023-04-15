@@ -76,7 +76,7 @@ header{
 }
 
 .hd-bs-bg-bl{
-   background: #000;
+   background: linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.9));
    transition: .4s;
    box-shadow: 0 0 10px 5px #000;
 }
@@ -86,9 +86,103 @@ header{
  */
 
 
+.btn-custom{
+    position: relative;
+    background: transparent;
+    border: 2px solid #fff;
+    color: #fff;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 1.5em;
+    letter-spacing: 0.1em;
+    font-weight: 400;
+    padding: 5px 15px;
+    transition: 0.5s;
+}
+
+.btn-custom:hover{
+    background: transparent;
+    color: #FFA500;
+    letter-spacing: 0.25em;
+    border: 2px solid #FFA500;
+    box-shadow: 0 0 35px rgba(255, 165, 0, 0.5);
+}
+
+.btn-custom:before
+{
+    content: '';
+    position: absolute;
+    inset: 2px;
+    background: transparent;
+}
+
+.btn-custom span{
+    position: relative;
+    z-index: 1;
+
+}
+
+.btn-custom i{
+    position: absolute;
+    inset: 0;
+    display: block;
+}
+
+.btn-custom i::before
+{
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: 80%;
+    width: 15px;
+    height: 4px;
+    background: #000;
+    transform: translateX(-50%) skewX(325deg);
+    transition: .5s;
+}
+
+.btn-custom:hover i::before
+{
+    width: 30px;
+    left: 20%;
+
+}
+
+.btn-custom i::after
+{
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 20%;
+    width: 15px;
+    height: 4px;
+    background: #000;
+    transform: translateX(-50%) skewX(325deg);
+    transition: .5s;
+}
+
+.btn-custom:hover i::after
+{
+    width: 30px;
+    left: 80%;
+
+}
+
+.btn-add-quote {
+    margin-bottom: 100px;
+}
+
+
+.hv-btn{
+    border: 2px solid #FFA500;
+    transition: .3s;
+}
+
 .hv-btn:hover{
-    background-color: #FFA500;
-    border: 1px solid #FFA500;
+    color: #000;
+    background: #FFA500;
+    border: 2px solid #FFA500;
+    box-shadow: 0 0 35px rgba(255, 165, 0, 0.5);
 }
 
 input[type='checkbox'] {
@@ -153,6 +247,10 @@ input[type='checkbox'] {
 .quote-text{
     transition: 0.3s;
     overflow-wrap: break-word;
+    text-decoration: none;
+    color: #fff;
+    font-size: 1.5em;
+    font-weight: 400;
 }
 
 .quote-text:hover{

@@ -1,21 +1,45 @@
 from flask import render_template, redirect
-from flask_login import login_user, logout_user, login_required
+from flask_login import login_user, logout_user, login_required, current_user
 
 from quote_web.forms.user import RegisterForm, LoginForm
+from quote_web.forms.quote import QuoteForm
 from quote_web.data.users import User
+from quote_web.data.quotes import Quote
 
 from quote_web import app, db_session, login_manager
 
 
 @app.route('/')
 def index():
-    return render_template('index.html', title='Главная')
+    db_sess = db_session.create_session()
+    quotes = db_sess.query(Quote).all()
+    no_quotes = False
+    if len(quotes) == 0:
+        no_quotes = True
+    return render_template('home.html', title='Главная', quotes=quotes, no_quotes=no_quotes)
 
 
 @login_manager.user_loader
 def load_user(user_id):
     db_sess = db_session.create_session()
     return db_sess.query(User).get(user_id)
+
+
+@app.route('/quote',  methods=['GET', 'POST'])
+@login_required
+def add_news():
+    form = QuoteForm()
+    if form.validate_on_submit():
+        db_sess = db_session.create_session()
+        quote = Quote()
+        quote.author = form.author.data
+        quote.content = form.content.data
+        current_user.quotes.append(quote)
+        db_sess.merge(current_user)
+        db_sess.commit()
+        return redirect('/')
+    return render_template('quote.html', title='Добавление цитаты',
+                           form=form)
 
 
 @app.route('/sign-out')
