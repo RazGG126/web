@@ -217,6 +217,32 @@ input[type='checkbox'] {
     border-color: rgba(255, 165, 0, 0.4);
     box-shadow: 0 0 0px 3px rgba(255, 165, 0, 0.4);
 }
+.form-input-сomment-add{
+    outline: none;
+    border: none;
+    border-bottom: 2px solid rgba(255, 165, 0, 0.8);
+    padding-top: 10px;
+    padding-bottom:10px;
+    background: transparent;
+    color: #fff;
+    transition: .1s;
+}
+
+.form-input-сomment-add:focus
+{
+    border-bottom: 6px solid rgba(255, 165, 0, 1);
+}
+
+.form-input-сomment-add:focus::placeholder{
+    letter-spacing: .05em;
+}
+
+
+.form-input-сomment-add::placeholder{
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: italic;
+    transition: .1s;
+}
 
 
 .head-title{
@@ -230,9 +256,17 @@ input[type='checkbox'] {
     border-right: 5px solid  rgba(255, 165, 0, 0.8);
     border-left: 5px solid  rgba(255, 165, 0, 0.8);
     text-align: center;
-    padding-left: 10px;
     padding-top: 15px;
     align-items: center;
+}
+
+.quote-alone{
+    border-radius: none;
+    margin-bottom: 100px;
+    border-right: 5px solid  rgba(255, 165, 0, 0.8);
+    border-left: 5px solid  rgba(255, 165, 0, 0.8);
+    padding-top: 15px;
+    text-align: left;
 }
 
 
@@ -244,7 +278,7 @@ input[type='checkbox'] {
     align-content: center;
 }
 
-.quote-text{
+.quote-text-h3{
     transition: 0.3s;
     overflow-wrap: break-word;
     text-decoration: none;
@@ -253,7 +287,18 @@ input[type='checkbox'] {
     font-weight: 400;
 }
 
-.quote-text:hover{
+.quote-text-h2{
+    transition: 0.3s;
+    overflow-wrap: break-word;
+    text-decoration: none;
+    color: #fff;
+    font-size: 2em;
+    font-weight: 400;
+}
+
+.quote-text-h3:hover,
+.quote-text-h2:hover
+{
     color: rgba(255, 165, 0, 1);
     cursor: pointer;
 }
@@ -277,3 +322,23 @@ input[type='checkbox'] {
     color: #FFA500;
 }
 
+
+.send-icon{
+    color: #fff;
+    padding-left: 40px;
+    padding-right: 40px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border: 2px solid #fff;
+    transition: .3s;
+    background: transparent;
+}
+
+
+
+.send-icon:hover{
+    cursor: pointer;
+    color: #FFA500;
+    border: 2px solid #FFA500;
+    box-shadow: 0 0 35px rgba(255, 165, 0, 0.5);
+}

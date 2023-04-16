@@ -1,10 +1,13 @@
-from flask import render_template, redirect
+from flask import render_template, redirect, request, abort
 from flask_login import login_user, logout_user, login_required, current_user
 
 from quote_web.forms.user import RegisterForm, LoginForm
 from quote_web.forms.quote import QuoteForm
+from quote_web.forms.comment import CommentForm
 from quote_web.data.users import User
 from quote_web.data.quotes import Quote
+
+from quote_web.check_password import check_password
 
 from quote_web import app, db_session, login_manager
 
@@ -16,7 +19,7 @@ def index():
     no_quotes = False
     if len(quotes) == 0:
         no_quotes = True
-    return render_template('home.html', title='Главная', quotes=quotes, no_quotes=no_quotes)
+    return render_template('home.html', title='Главная', quotes=quotes, no_quotes=no_quotes, mess_aleft=False)
 
 
 @login_manager.user_loader
@@ -25,7 +28,7 @@ def load_user(user_id):
     return db_sess.query(User).get(user_id)
 
 
-@app.route('/quote',  methods=['GET', 'POST'])
+@app.route('/quote-add',  methods=['GET', 'POST'])
 @login_required
 def add_news():
     form = QuoteForm()
@@ -38,8 +41,11 @@ def add_news():
         db_sess.merge(current_user)
         db_sess.commit()
         return redirect('/')
-    return render_template('quote.html', title='Добавление цитаты',
+    return render_template('quote_add.html', title='Новая цитата',
                            form=form)
+
+
+
 
 
 @app.route('/sign-out')
@@ -87,6 +93,13 @@ def reqister():
             email=form.email.data,
             nick_name=form.nick_name.data
         )
+
+        checked = check_password(form.password.data)
+
+        if not checked[0]:
+            return render_template('register.html', title='Регистрация',
+                                   form=form,
+                                   message=checked[1], mess_aleft=True)
         user.set_password(form.password.data)
         db_sess.add(user)
         db_sess.commit()
@@ -98,3 +111,31 @@ def reqister():
 @app.route('/about')
 def about():
     return render_template('about.html', title='О нас')
+
+
+@app.route('/quote/<int:id>', methods=['GET', 'POST'])
+def quote(id):
+    form = CommentForm()
+    if request.method == "GET":
+        db_sess = db_session.create_session()
+        quote = db_sess.query(Quote).filter(Quote.id == id).first()
+        if quote:
+            return render_template('quote.html', title='Цитата', quote=quote)
+        else:
+            abort(404)
+    # if form.validate_on_submit():
+    #     db_sess = db_session.create_session()
+    #     news = db_sess.query(News).filter(News.id == id,
+    #                                       News.user == current_user
+    #                                       ).first()
+    #     if news:
+    #         news.title = form.title.data
+    #         news.content = form.content.data
+    #         news.is_private = form.is_private.data
+    #         db_sess.commit()
+    #         return redirect('/')
+    #     else:
+    #         abort(404)
+    return render_template('quote.html',
+                           title='Цитата',
+                           form=form)

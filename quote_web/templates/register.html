@@ -15,54 +15,42 @@
     <div class="row justify-content-center">
         {{ form.name(class="form-input-reg-log mb-3 col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6", placeholder="Введите имя") }}
         {% for error in form.name.errors %}
-            <p class="alert alert-danger" role="alert">
-                {{ error }}
-            </p>
+             <p class="alert-reg mb-2" role="alert">{{error}}</p>
         {% endfor %}
     </div>
     <div class="row justify-content-center"><label class="lb mb-1 col-12  col-sm-6 col-md-6 col-lg-6 col-xl-6">{{ form.surname.label }}</label></div>
     <div class="row justify-content-center">
         {{ form.surname(class="form-input-reg-log mb-3 col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6", placeholder="Введите фамилию") }}
         {% for error in form.surname.errors %}
-            <p class="alert alert-danger" role="alert">
-                {{ error }}
-            </p>
+             <p class="alert-reg mb-2" role="alert">{{error}}</p>
         {% endfor %}
     </div>
     <div class="row justify-content-center"><label class="lb mb-1 col-12  col-sm-6 col-md-6 col-lg-6 col-xl-6">{{ form.nick_name.label }}</label></div>
     <div class="row justify-content-center">
         {{ form.nick_name(class="form-input-reg-log mb-3 col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6", placeholder="Введите имя пользователя") }}
         {% for error in form.nick_name.errors %}
-            <p class="alert alert-danger" role="alert">
-                {{ error }}
-            </p>
+             <p class="alert-reg mb-2" role="alert">{{error}}</p>
         {% endfor %}
     </div>
     <div class="row justify-content-center"><label class="lb mb-1 col-12  col-sm-6 col-md-6 col-lg-6 col-xl-6">{{ form.email.label }}</label></div>
     <div class="row justify-content-center">
         {{ form.email(class="form-input-reg-log mb-3 col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6", placeholder="Введите электронную почту", type="email") }}
         {% for error in form.email.errors %}
-            <p class="alert alert-danger" role="alert">
-                {{ error }}
-            </p>
+             <p class="alert-reg mb-2" role="alert">{{error}}</p>
         {% endfor %}
     </div>
     <div class="row justify-content-center"><label class="lb mb-1 col-12  col-sm-6 col-md-6 col-lg-6 col-xl-6">{{ form.password.label }}</label></div>
     <div class="row justify-content-center">
         {{ form.password(class="form-input-reg-log mb-3 col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6", placeholder="Введите пароль", type="password") }}
         {% for error in form.password.errors %}
-            <p class="alert alert-danger" role="alert">
-                {{ error }}
-            </p>
+             <p class="alert-reg mb-2" role="alert">{{error}}</p>
         {% endfor %}
     </div>
     <div class="row justify-content-center"><label class="lb mb-1 col-12  col-sm-6 col-md-6 col-lg-6 col-xl-6">{{ form.password_again.label }}</label></div>
     <div class="row justify-content-center">
         {{ form.password_again(class="form-input-reg-log mb-4 col-12 col-sm-6 col-md-6 col-lg-6 col-xl-6", placeholder="Введите пароль ещё раз", type="password") }}
         {% for error in form.password_again.errors %}-->
-            <p class="alert alert-danger" role="alert">
-                {{ error }}
-            </p>
+             <p class="alert-reg mb-2" role="alert">{{error}}</p>
         {% endfor %}
     </div>
     <div class="checkbox mb-3">
