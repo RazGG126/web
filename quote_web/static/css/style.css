@@ -260,6 +260,7 @@ input[type='checkbox'] {
     align-items: center;
 }
 
+
 .quote-alone{
     border-radius: none;
     margin-bottom: 100px;
@@ -267,6 +268,7 @@ input[type='checkbox'] {
     border-left: 5px solid  rgba(255, 165, 0, 0.8);
     padding-top: 15px;
     text-align: left;
+    align-items: center;
 }
 
 
@@ -341,4 +343,34 @@ input[type='checkbox'] {
     color: #FFA500;
     border: 2px solid #FFA500;
     box-shadow: 0 0 35px rgba(255, 165, 0, 0.5);
+}
+
+.comment_text{
+    text-align: left;
+}
+
+.comments_content{
+    height: 500px;
+    overflow-y: auto;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.item_comments{
+    width: 100%;
+    min-height: 100%;
+}
+
+.comment{
+    box-sizing: border-box;
+    align-items: center;
+    margin-left: 2px;
+    border-left: 2px solid  rgba(255, 165, 0, 1);
+    padding-top: 15px;
+    padding-bottom: 15px;
+    margin-bottom: 30px;
+    word-break: break-word;
+    background: rgba(0, 0, 0, 0.7);
+
 }
