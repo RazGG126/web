@@ -6,6 +6,7 @@ from quote_web.forms.quote import QuoteForm
 from quote_web.forms.comment import CommentForm
 from quote_web.data.users import User
 from quote_web.data.quotes import Quote
+from quote_web.data.comments import Comment
 
 from quote_web.check_password import check_password
 
@@ -116,15 +117,20 @@ def about():
 @app.route('/quote/<int:id>', methods=['GET', 'POST'])
 def quote(id):
     form = CommentForm()
-    if request.method == "GET":
-        db_sess = db_session.create_session()
-        quote = db_sess.query(Quote).filter(Quote.id == id).first()
-        if quote:
-            return render_template('quote.html', title='Цитата', quote=quote)
-        else:
-            abort(404)
-    # if form.validate_on_submit():
-    #     db_sess = db_session.create_session()
+    db_sess = db_session.create_session()
+    quote = db_sess.query(Quote).filter(Quote.id == id).first()
+    comments = db_sess.query(Comment).filter(Comment.quote_id == id).all()
+    quote.comments_number = len(comments)
+    db_sess.commit()
+    if form.validate_on_submit():
+        comment = Comment(
+            content=form.comment.data,
+            user_id=current_user.id,
+            quote_id=id
+        )
+        db_sess.add(comment)
+        db_sess.commit()
+        return redirect(f'/quote/{id}')
     #     news = db_sess.query(News).filter(News.id == id,
     #                                       News.user == current_user
     #                                       ).first()
@@ -138,4 +144,6 @@ def quote(id):
     #         abort(404)
     return render_template('quote.html',
                            title='Цитата',
+                           quote=quote,
+                           comments=comments,
                            form=form)

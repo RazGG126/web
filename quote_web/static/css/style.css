@@ -350,7 +350,7 @@ input[type='checkbox'] {
 }
 
 .comments_content{
-    height: 500px;
+    height: 400px;
     overflow-y: auto;
     display: flex;
     align-items: center;
@@ -372,5 +372,4 @@ input[type='checkbox'] {
     margin-bottom: 30px;
     word-break: break-word;
     background: rgba(0, 0, 0, 0.7);
-
 }
