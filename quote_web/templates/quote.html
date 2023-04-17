@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block nav %}
+    <li><a class="navig nav-link fw-bold py-1 px-0" aria-current="page" href="/">Главная</a></li>
+    <li><a class="navig nav-link fw-bold py-1 px-0" href="/about">О нас</a></li>
+    {% if current_user.is_authenticated %}
+        <li><a class="navig nav-link fw-bold py-1 px-0" href="/sign-out"><i class="fa-regular fa-user fa-sm"></i> {{ current_user.nick_name }}</a></li>
+    {% else %}
+        <li><a class="navig nav-link fw-bold py-1 px-0" href="/sign-in"><i class="fa-regular fa-user fa-sm"></i> Войти</a></li>
+    {% endif %}
+{% endblock %}
+
+
+{% block content %}
+    <div class="head-title">
+        <h1>Цитата.</h1>
+    </div>
+    <div class="quote-alone row">
+        <div class="col-12 col-sm-8 col-md-9 col-lg-9">
+            <h3 class="quote-text-h3">&#10077;{{quote.content}}&#10078;</h3>
+            <p class="fw-light">{{quote.author}}</p>
+        </div>
+        <div class="author-quote col-12 col-sm-4 col-md-3 col-lg-3">
+            <h4 class="text-center">{{quote.user.nick_name}}</h4>
+            <div class="indicators">
+                <p class="indicator-left"><i class="fa-regular fa-comment" style="color: #ffa50a;"></i> {{quote.likes_number}}</p>
+                <p class="indicator-right"><i class="fa-regular fa-heart" style="color: #ffa50a;"></i> {{quote.comments_number}}</p>
+            </div>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <h3 class="comment_text">Комментарии к цитате</h3>
+    </div>
+    <div class="comments_content justify-content-center mb-4">
+        <div class="item_comments row">
+            <div class="comment col-12 row">
+                <div class="col-12 col-sm-4 col-md-3 col-lg-3">
+                    <h4 class="text-left">RazGG126</h4>
+                </div>
+                <div class="col-12 col-sm-8 col-md-9 col-lg-9">
+                    <p class="text-center">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi architecto asperiores dolore explicabo ipsam iure laudantium quaerat quisquam sapiente soluta. 😊😊</p>
+                </div>
+            </div>
+            <div class="comment col-12 row">
+                <div class="col-12 col-sm-4 col-md-3 col-lg-3">
+                    <h4 class="text-left">Alex666</h4>
+                </div>
+                <div class="col-12 col-sm-8 col-md-9 col-lg-9">
+                    <p class="text-center">&#129315;&#129315;&#129315;&#129315;&#129315;&#129315;&#129315; Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus, asperiores consequatur cupiditate deleniti dignissimos eligendi eos, eum ex exercitationem, facere in ipsam ipsum laudantium nulla numquam odio officiis optio provident quas quis rerum saepe sequi sunt velit vero voluptas voluptatem.</p>
+                </div>
+            </div>
+            <div class="comment col-12 row">
+                <div class="col-12 col-sm-4 col-md-3 col-lg-3">
+                    <h4 class="text-left">Admin</h4>
+                </div>
+                <div class="col-12 col-sm-8 col-md-9 col-lg-9">
+                    <p class="text-center">Lorem ipsum dolor sit amet.</p>
+                </div>
+            </div>
+            <div class="comment col-12 row">
+                <div class="col-12 col-sm-4 col-md-3 col-lg-3">
+                    <h4 class="text-left">__CoMMeNtAtOrgfgfgdfgdf__</h4>
+                </div>
+                <div class="col-12 col-sm-8 col-md-9 col-lg-9">
+                    <p class="text-center">Lorem ipsum dolor sit amet, consectetur adipisicing elit. At atque dolore doloribus dolorum enim ex, qui recusandae?</p>
+                </div>
+            </div>
+        </div>
+        <div class="item_comments row">
+            <div class="comment_user col-12">Максим: интересная цитата</div>
+            <div class="comment_user col-12">Максим: интересная цитата</div>
+            <div class="comment_user col-12">Максим: интересная цитата</div>
+            <div class="comment_user col-12">Максим: интересная цитата</div>
+        </div>
+        <div class="item_comments row">
+            <div class="comment_user col-12">Гриша: интересная цитата</div>
+            <div class="comment_user col-12">Гриша: интересная цитата</div>
+            <div class="comment_user col-12">Гриша: интересная цитата</div>
+            <div class="comment_user col-12">Гриша: интересная цитата</div>
+        </div>
+    </div>
+    <form action="" method="post">
+        <div class="row justify-content-around">
+            <div class="col-12 col-sm-8 col-md-9 col-lg-9">
+                <input class="form-input-сomment-add mb-3 w-100", placeholder="Введите комментарий">
+            </div>
+            <div class="col-12 col-sm-4 col-md-3 col-lg-3 mb-5 justify-content-center align-items-center">
+                <div>
+                    <input class="send-icon" type="submit">
+                </div>
+            </div>
+        </div>
+    </form>
+
+{% endblock %}
