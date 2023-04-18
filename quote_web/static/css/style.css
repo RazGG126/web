@@ -193,7 +193,7 @@ input[type='checkbox'] {
 
 /* ALERT LOG|REG PAGES */
 
-.alert-reg{
+.alert-reg-log {
     background: red;
     padding-top: 10px;
     padding-bottom: 10px;
@@ -292,6 +292,15 @@ input[type='checkbox'] {
 }
 
 .quote-text-h3{
+    transition: 0.3s;
+    overflow-wrap: break-word;
+    text-decoration: none;
+    color: #fff;
+    font-size: 1.5em;
+    font-weight: 400;
+}
+
+.text-h3{
     transition: 0.3s;
     overflow-wrap: break-word;
     text-decoration: none;
