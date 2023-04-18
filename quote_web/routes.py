@@ -1,4 +1,4 @@
-from flask import render_template, redirect, request, abort
+from flask import render_template, redirect, request, abort, jsonify
 from flask_login import login_user, logout_user, login_required, current_user
 
 from quote_web.forms.user import RegisterForm, LoginForm
@@ -7,6 +7,7 @@ from quote_web.forms.comment import CommentForm
 from quote_web.data.users import User
 from quote_web.data.quotes import Quote
 from quote_web.data.comments import Comment
+from quote_web.data.likes import Like
 
 from quote_web.check_password import check_password
 
@@ -16,7 +17,7 @@ from quote_web import app, db_session, login_manager
 @app.route('/')
 def index():
     db_sess = db_session.create_session()
-    quotes = db_sess.query(Quote).all()
+    quotes = db_sess.query(Quote).order_by(Quote.created_date.desc()).all()
     no_quotes = False
     if len(quotes) == 0:
         no_quotes = True
@@ -114,12 +115,34 @@ def about():
     return render_template('about.html', title='О нас')
 
 
+@app.route('/like-quote/<int:quote_id>', methods=['POST'])
+@login_required
+def like(quote_id):
+    db_sess = db_session.create_session()
+    quote = db_sess.query(Quote).filter(Quote.id == quote_id).first()
+    like = db_sess.query(Like).filter(Like.user_id == current_user.id, Like.quote_id == quote_id).first()
+    if not quote:
+        jsonify({"error": 'Quote does not exist.'}, 400)
+    elif like:
+        db_sess.delete(like)
+        quote.likes_number = quote.likes_number - 1
+        db_sess.commit()
+    else:
+        like = Like(user_id=current_user.id, quote_id=quote_id)
+        db_sess.add(like)
+        quote.likes_number = quote.likes_number + 1
+        db_sess.commit()
+    return jsonify({"likes": quote.likes_number, "liked": current_user.id in map(lambda x: x.user_id, quote.likes)})
+    
+
+
+
 @app.route('/quote/<int:id>', methods=['GET', 'POST'])
 def quote(id):
     form = CommentForm()
     db_sess = db_session.create_session()
     quote = db_sess.query(Quote).filter(Quote.id == id).first()
-    comments = db_sess.query(Comment).filter(Comment.quote_id == id).all()
+    comments = db_sess.query(Comment).order_by(Comment.id.desc()).filter(Comment.quote_id == id).all()
     quote.comments_number = len(comments)
     db_sess.commit()
     if form.validate_on_submit():
@@ -131,17 +154,6 @@ def quote(id):
         db_sess.add(comment)
         db_sess.commit()
         return redirect(f'/quote/{id}')
-    #     news = db_sess.query(News).filter(News.id == id,
-    #                                       News.user == current_user
-    #                                       ).first()
-    #     if news:
-    #         news.title = form.title.data
-    #         news.content = form.content.data
-    #         news.is_private = form.is_private.data
-    #         db_sess.commit()
-    #         return redirect('/')
-    #     else:
-    #         abort(404)
     return render_template('quote.html',
                            title='Цитата',
                            quote=quote,

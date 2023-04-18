@@ -24,11 +24,15 @@
             <h4 class="text-center">{{quote.user.nick_name}}</h4>
             <div class="indicators">
                 <p class="indicator-left"><i class="fa-regular fa-comment" style="color: #ffa50a;"></i> {{quote.comments_number}}</p>
-                <p class="indicator-right"><i class="fa-regular fa-heart" style="color: #ffa50a;"></i> {{quote.likes_number}}</p>
+                {% if current_user.id in quote.likes|map(attribute="user_id")|list %}
+                    <p class="indicator-right"><i class="fa-solid fa-heart" id="like-button-{{quote.id}}" onclick="like({{quote.id}})" style="color: #ffa50a;"></i> <span id="likes-count-{{quote.id}}">{{quote.likes_number}}</span></p>
+                {% else %}
+                    <p class="indicator-right"><i class="fa-regular fa-heart" id="like-button-{{quote.id}}" onclick="like({{quote.id}})" style="color: #ffa50a;"></i> <span id="likes-count-{{quote.id}}">{{quote.likes_number}}</span></p>
+                {% endif %}
             </div>
         </div>
     </div>
-    <div class="row mb-3">
+    <div class="row mb-4">
         <h3 class="comment_text">Комментарии к цитате - {{quote.comments_number}}</h3>
     </div>
     {% if quote.comments_number == 0 %}
@@ -36,7 +40,7 @@
             <p class="lead">Комментариев ещё нет.</p>
         </div>
     {% else %}
-        <div class="comments_content justify-content-center mb-4">
+        <div class="comments_content justify-content-center">
             <div class="item_comments row">
                 {% for comment in comments%}
                     <div class="comment col-12 row">
@@ -67,7 +71,7 @@
                     {% endfor %}
                 </div>
                 <div class="col-12 col-sm-4 col-md-3 col-lg-3 mb-5 justify-content-center align-items-center">
-                    {{ form.submit(type="submit", class="send-icon") }}
+                    {{ form.submit(type="submit", class="send-button") }}
                 </div>
             </div>
         </form>

@@ -21,6 +21,8 @@ class User(SqlAlchemyBase, UserMixin):
                                      default=datetime.datetime.now)
 
     quotes = orm.relationship("Quote", back_populates='user')
+    likes = orm.relationship("Like", back_populates='user')
+    comments = orm.relationship("Comment", back_populates='user')
 
     def __repr__(self):
         return f"{self.id}: {self.name} {self.surname} {self.email}"

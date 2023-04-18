@@ -37,7 +37,11 @@
                     <h4 class="text-center">{{item.user.nick_name}}</h4>
                     <div class="indicators">
                         <p class="indicator-left"><i class="fa-regular fa-comment" style="color: #ffa50a;"></i> {{item.comments_number}}</p>
-                        <p class="indicator-right"><i class="fa-regular fa-heart" style="color: #ffa50a;"></i> {{item.likes_number}}</p>
+                        {% if current_user.id in item.likes|map(attribute="user_id")|list %}
+                            <p class="indicator-right"><i class="fa-solid fa-heart" id="like-button-{{item.id}}" onclick="like({{item.id}})" style="color: #ffa50a;"></i> <span id="likes-count-{{item.id}}">{{item.likes_number}}</span></p>
+                        {% else %}
+                            <p class="indicator-right"><i class="fa-regular fa-heart" id="like-button-{{item.id}}" onclick="like({{item.id}})" style="color: #ffa50a;"></i> <span id="likes-count-{{item.id}}">{{item.likes_number}}</span></p>
+                        {% endif %}
                     </div>
                 </div>
             </div>

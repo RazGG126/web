@@ -20,3 +20,4 @@ class Quote(SqlAlchemyBase):
 
     user = orm.relationship('User')
     comments = orm.relationship('Comment', back_populates='quote')
+    likes = orm.relationship('Like', back_populates='quote')
