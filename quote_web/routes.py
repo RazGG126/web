@@ -1,9 +1,13 @@
 from flask import render_template, redirect, request, abort, jsonify
 from flask_login import login_user, logout_user, login_required, current_user
 
-from quote_web.forms.user import RegisterForm, LoginForm
+from quote_web.forms.user import RegisterForm, LoginForm, ResetPasswordForm, UpdatePasswordForm
 from quote_web.forms.quote import QuoteForm
 from quote_web.forms.comment import CommentForm
+
+from quote_web.units import send_reset_email
+
+
 from quote_web.data.users import User
 from quote_web.data.quotes import Quote
 from quote_web.data.comments import Comment
@@ -21,7 +25,7 @@ def index():
     no_quotes = False
     if len(quotes) == 0:
         no_quotes = True
-    return render_template('home.html', title='Главная', quotes=quotes, no_quotes=no_quotes, mess_aleft=False)
+    return render_template('home.html', title='Главная', quotes=quotes, no_quotes=no_quotes)
 
 
 @login_manager.user_loader
@@ -30,7 +34,7 @@ def load_user(user_id):
     return db_sess.query(User).get(user_id)
 
 
-@app.route('/quote-add',  methods=['GET', 'POST'])
+@app.route('/quote-add', methods=['GET', 'POST'])
 @login_required
 def add_news():
     form = QuoteForm()
@@ -45,9 +49,6 @@ def add_news():
         return redirect('/')
     return render_template('quote_add.html', title='Новая цитата',
                            form=form)
-
-
-
 
 
 @app.route('/sign-out')
@@ -68,7 +69,7 @@ def sign_in():
             return redirect("/")
         return render_template('sign_in.html',
                                message="Неправильный логин или пароль",
-                               form=form, mess_aleft=True)
+                               form=form, mess_alert=True)
     return render_template('sign_in.html', title='Авторизация', form=form)
 
 
@@ -79,16 +80,16 @@ def reqister():
         if form.password.data != form.password_again.data:
             return render_template('register.html', title='Регистрация',
                                    form=form,
-                                   message="Пароли не совпадают", mess_aleft=True)
+                                   message="Пароли не совпадают", mess_alert=True)
         db_sess = db_session.create_session()
         if db_sess.query(User).filter(User.nick_name == form.nick_name.data).first():
             return render_template('register.html', title='Регистрация',
                                    form=form,
-                                   message="Имя пользователя уже используется", mess_aleft=True)
+                                   message="Имя пользователя уже используется", mess_alert=True)
         if db_sess.query(User).filter(User.email == form.email.data).first():
             return render_template('register.html', title='Регистрация',
                                    form=form,
-                                   message="Такая почта уже зарегистрирована", mess_aleft=True)
+                                   message="Такая почта уже зарегистрирована", mess_alert=True)
         user = User(
             name=form.name.data,
             surname=form.surname.data,
@@ -101,7 +102,7 @@ def reqister():
         if not checked[0]:
             return render_template('register.html', title='Регистрация',
                                    form=form,
-                                   message=checked[1], mess_aleft=True)
+                                   message=checked[1], mess_alert=True)
         user.set_password(form.password.data)
         db_sess.add(user)
         db_sess.commit()
@@ -113,28 +114,6 @@ def reqister():
 @app.route('/about')
 def about():
     return render_template('about.html', title='О нас')
-
-
-@app.route('/like-quote/<int:quote_id>', methods=['POST'])
-@login_required
-def like(quote_id):
-    db_sess = db_session.create_session()
-    quote = db_sess.query(Quote).filter(Quote.id == quote_id).first()
-    like = db_sess.query(Like).filter(Like.user_id == current_user.id, Like.quote_id == quote_id).first()
-    if not quote:
-        jsonify({"error": 'Quote does not exist.'}, 400)
-    elif like:
-        db_sess.delete(like)
-        quote.likes_number = quote.likes_number - 1
-        db_sess.commit()
-    else:
-        like = Like(user_id=current_user.id, quote_id=quote_id)
-        db_sess.add(like)
-        quote.likes_number = quote.likes_number + 1
-        db_sess.commit()
-    return jsonify({"likes": quote.likes_number, "liked": current_user.id in map(lambda x: x.user_id, quote.likes)})
-    
-
 
 
 @app.route('/quote/<int:id>', methods=['GET', 'POST'])
@@ -159,3 +138,76 @@ def quote(id):
                            quote=quote,
                            comments=comments,
                            form=form)
+
+
+@app.route('/like-quote/<int:quote_id>', methods=['POST'])
+@login_required
+def like(quote_id):
+    db_sess = db_session.create_session()
+    quote = db_sess.query(Quote).filter(Quote.id == quote_id).first()
+    like = db_sess.query(Like).filter(Like.user_id == current_user.id, Like.quote_id == quote_id).first()
+    if not quote:
+        jsonify({"error": 'Quote does not exist.'}, 400)
+    elif like:
+        db_sess.delete(like)
+        quote.likes_number = quote.likes_number - 1
+        db_sess.commit()
+    else:
+        like = Like(user_id=current_user.id, quote_id=quote_id)
+        db_sess.add(like)
+        quote.likes_number = quote.likes_number + 1
+        db_sess.commit()
+    return jsonify({"likes": quote.likes_number, "liked": current_user.id in map(lambda x: x.user_id, quote.likes)})
+
+
+def send_mail():
+    pass
+
+
+@app.route('/reset_password', methods=['GET', 'POST'])
+def reset_password():
+    if current_user.is_authenticated:
+        return redirect('/')
+    form = ResetPasswordForm()
+    if form.validate_on_submit():
+        db_sess = db_session.create_session()
+        user = db_sess.query(User).filter(User.email == form.email.data).first()
+        if not user:
+            return render_template('reset_password.html', title='Сброс пароля', form=form, mess_alert=True,
+                                   message='Аккаунт с такой почтой не найден.')
+        send_reset_email(user)
+        return redirect('/sign-in')
+    return render_template('reset_password.html', title='Сброс пароля', form=form)
+
+
+@app.route('/update_password/<token>', methods=['GET', 'POST'])
+def update_password(token):
+    user_id = User.verify_token(token)
+
+    if user_id is None:
+        return 'error'
+
+    form = UpdatePasswordForm()
+    if form.validate_on_submit():
+
+        if form.password.data != form.password_again.data:
+            return render_template('register.html', title='Регистрация',
+                                   form=form,
+                                   message="Пароли не совпадают", mess_alert=True)
+
+        checked = check_password(form.password.data)
+
+        if not checked[0]:
+            return render_template('register.html', title='Регистрация',
+                                   form=form,
+                                   message=checked[1], mess_alert=True)
+
+        db_sess = db_session.create_session()
+        user = db_sess.query(User).filter(User.id == user_id).first()
+
+        user.set_password(form.password.data)
+        db_sess.commit()
+
+        return redirect('/sign-in')
+
+    return render_template('update_password.html', title='Сброс пароля', form=form)

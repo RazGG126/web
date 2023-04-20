@@ -1,9 +1,12 @@
 import datetime
 import sqlalchemy
+import jwt
 from sqlalchemy import orm
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 from .db_session import SqlAlchemyBase
+
+from quote_web import app
 
 
 class User(SqlAlchemyBase, UserMixin):
@@ -32,3 +35,18 @@ class User(SqlAlchemyBase, UserMixin):
 
     def check_password(self, password):
         return check_password_hash(self.hashed_password, password)
+    
+    def generate_token(self):
+        token = jwt.encode({'user_id': self.id, 'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=5)}, app.config['SECRET_KEY'])
+        return token
+
+    @staticmethod
+    def verify_token(token):
+        try:
+            user_id = jwt.decode(token, app.config['SECRET_KEY'], algorithms=['HS256'])['user_id']
+        except:
+            return None
+        return user_id
+
+        
+        

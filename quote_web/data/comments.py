@@ -1,4 +1,4 @@
-from datetime import date
+import datetime
 
 import sqlalchemy
 from sqlalchemy import orm
@@ -14,8 +14,8 @@ class Comment(SqlAlchemyBase):
     user_id = sqlalchemy.Column(sqlalchemy.Integer,
                                 sqlalchemy.ForeignKey("users.id"))
     quote_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey("quotes.id"))
-    created_date = sqlalchemy.Column(sqlalchemy.String,
-                                     default=date.today)
+    created_date = sqlalchemy.Column(sqlalchemy.DateTime,
+                                     default=datetime.datetime.now)
     user = orm.relationship('User')
     quote = orm.relationship('Quote')
 

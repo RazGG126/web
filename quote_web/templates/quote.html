@@ -18,7 +18,14 @@
     <div class="quote-alone row">
         <div class="col-12 col-sm-8 col-md-9 col-lg-9">
             <h3 class="text-h3">&#10077;{{quote.content}}&#10078;</h3>
-            <p class="fw-light">{{quote.author}}</p>
+            <div class="row">
+                <div class="col-6 text-start">
+                    <p class="fw-light">{{quote.author}}</p>
+                </div>
+                <div class="col-6 text-end">
+                    <p class="fw-light">{{quote.created_date.strftime('%Y.%m.%d %H:%M')}}</p>
+                </div>
+            </div>
         </div>
         <div class="author-quote col-12 col-sm-4 col-md-3 col-lg-3">
             <h4 class="text-center">{{quote.user.nick_name}}</h4>
@@ -47,7 +54,7 @@
                         <div class="author-quote col-12 col-sm-4 col-md-3 col-lg-3">
                             <h4 class="text-center">{{comment.user.nick_name}}</h4>
                             <div class="row">
-                                <p class="text-center">{{comment.created_date}}</p>
+                                <p class="text-center">{{comment.created_date.strftime('%Y.%m.%d %H:%M')}}</p>
                             </div>
                         </div>
                         <div class="col-12 col-sm-8 col-md-9 col-lg-9">

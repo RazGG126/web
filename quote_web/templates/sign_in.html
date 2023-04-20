@@ -35,9 +35,10 @@
             </label>
         </div>
         {{ form.submit(type="submit", class="hv-btn btn btn-lg btn-light fw-bold border-white mb-3") }}<br>
-        {% if mess_aleft %}
+        {% if mess_alert %}
             <p class="alert-reg-log mb-2" role="alert">{{message}}</p>
         {% endif %}
     </form>
 <p>Нет аккаунта? <a class="reg-login-text" href="/register">Зарегистрироваться</a></p>
+<p>Забыли пароль? <a class="reg-login-text" href="/reset_password">Сбросить пароль</a></p>
 {% endblock %}
