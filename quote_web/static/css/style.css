@@ -401,6 +401,10 @@ input[type='checkbox'] {
     background: rgba(0, 0, 0, 0.7);
 }
 
+.date{
+    color: gray;
+}
+
 
 /* SCROLLBAR */
 
