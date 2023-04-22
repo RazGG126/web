@@ -191,10 +191,18 @@ input[type='checkbox'] {
     accent-color: #FFA500;
 }
 
-/* ALERT LOG|REG PAGES */
+/* ALERTS */
 
-.alert-reg-log {
+.flash.error {
     background: red;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 2px;
+    font-size: 16px;
+}
+
+.flash.success {
+    background: green;
     padding-top: 10px;
     padding-bottom: 10px;
     border-radius: 2px;
@@ -269,6 +277,20 @@ input[type='checkbox'] {
     text-align: center;
     padding-top: 15px;
     align-items: center;
+    position: relative;
+}
+
+.quote_profile{
+    border-radius: none;
+    margin-bottom: 100px;
+    border-right: 5px solid  rgba(255, 165, 0, 0.8);
+    border-left: 5px solid  rgba(255, 165, 0, 0.8);
+    margin-left: 5px;
+    width: 98%;
+    text-align: center;
+    padding-top: 15px;
+    align-items: center;
+    position: relative;
 }
 
 
@@ -280,8 +302,21 @@ input[type='checkbox'] {
     padding-top: 15px;
     text-align: left;
     align-items: center;
+    position: relative;
 }
 
+.delete{
+    width: 15px;
+    height: 20px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 0;
+}
+
+.delete:hover{
+    cursor: pointer;
+}
 
 
 .author-quote{
@@ -399,6 +434,7 @@ input[type='checkbox'] {
     margin-bottom: 30px;
     word-break: break-word;
     background: rgba(0, 0, 0, 0.7);
+    position: relative;
 }
 
 .date{
@@ -437,3 +473,55 @@ input[type='checkbox'] {
 {
     cursor: pointer;
 }
+
+.fa-heart.profile:hover
+{
+    cursor: default;
+}
+
+.profile_main{
+    width: 100%;
+    position: relative;
+    padding-top: 100px;
+    padding-bottom: 100px;
+}
+
+.about{
+    position: absolute;
+    width: 100%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 4;
+}
+
+.blob{
+    background: transparent;
+    box-sizing: border-box;
+}
+
+#blobSvg{
+    padding: 0;
+    margin: 0;
+}
+
+.svg_blob{
+    width: min(100%, 400px);
+    height: min(100%, 400px);
+}
+
+.with-us-about-profile{
+}
+
+
+.blob2{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-sizing: border-box;
+    width: 100%;
+    z-index: 2;
+    filter: blur(50px);
+}
+

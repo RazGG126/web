@@ -4,7 +4,7 @@
     <li><a class="navig nav-link fw-bold py-1 px-0 active" aria-current="page" href="/">Главная</a></li>
     <li><a class="navig nav-link fw-bold py-1 px-0" href="/about">О нас</a></li>
     {% if current_user.is_authenticated %}
-        <li><a class="navig nav-link fw-bold py-1 px-0" href="/sign-out"><i class="fa-regular fa-user fa-sm"></i> {{ current_user.nick_name }}</a></li>
+        <li><a class="navig nav-link fw-bold py-1 px-0" href="/profile"><i class="fa-regular fa-user fa-sm"></i> {{ current_user.nick_name }}</a></li>
     {% else %}
         <li><a class="navig nav-link fw-bold py-1 px-0" href="/sign-in"><i class="fa-regular fa-user fa-sm"></i> Войти</a></li>
     {% endif %}
@@ -29,6 +29,9 @@
     {% else %}
         {% for item in quotes%}
             <div class="quote row">
+                {% if current_user.id == item.user.id %}
+                    <a class="delete" href="/quotes/delete/{{item.id}}/0"><i class="fa-solid fa-xmark fa-lg" style="color: #ff0000;"></i></a>
+                {% endif %}
                 <div class="quote-content col-12 col-sm-8 col-md-9 col-lg-9">
                     <a class="quote-text-h3" href="/quote/{{item.id}}">&#10077;{{item.content}}&#10078;</a>
                     <p class="fw-light">{{item.author}}</p>

@@ -59,9 +59,9 @@
             </label>
     </div>
     {{ form.submit(type="submit", class="hv-btn btn btn-lg btn-light fw-bold border-white mb-3") }}<br>
-    {% if mess_alert %}
-        <p class="alert-reg-log mb-2" role="alert">{{message}}</p>
-    {% endif %}
+    {% for category, msg in get_flashed_messages(True) %}
+            <p class="flash {{category}} mb-2" role="alert">{{msg}}</p>
+    {% endfor %}
 </form>
 <p>Уже есть аккаунт? <a class="reg-login-text" href="/sign-in">Войти</a></p>
 {% endblock %}
