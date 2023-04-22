@@ -479,6 +479,8 @@ input[type='checkbox'] {
     cursor: default;
 }
 
+
+/* PROFILE INFO | PROFILE PAGE*/
 .profile_main{
     width: 100%;
     position: relative;
@@ -495,6 +497,8 @@ input[type='checkbox'] {
     z-index: 4;
 }
 
+/* BLOB | PROFILE PAGE*/
+
 .blob{
     background: transparent;
     box-sizing: border-box;
@@ -510,9 +514,6 @@ input[type='checkbox'] {
     height: min(100%, 400px);
 }
 
-.with-us-about-profile{
-}
-
 
 .blob2{
     position: absolute;
@@ -525,3 +526,11 @@ input[type='checkbox'] {
     filter: blur(50px);
 }
 
+
+/* PROFILE IMAGE */
+
+.profile_img{
+    width: min(20%, 100px);
+    height: min(20%, 100px);
+    border-radius: 50%;
+}

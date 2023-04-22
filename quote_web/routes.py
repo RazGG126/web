@@ -1,11 +1,15 @@
+import sqlite3
+
 from flask import render_template, redirect, request, abort, jsonify, flash
 from flask_login import login_user, logout_user, login_required, current_user
 
 from quote_web.forms.user import RegisterForm, LoginForm, ResetPasswordForm, UpdatePasswordForm
+from quote_web.forms.settings import NewPassword, ProfilePhoto, NewNickname
 from quote_web.forms.quote import QuoteForm
 from quote_web.forms.comment import CommentForm
 
-from quote_web.units import send_reset_email
+
+from quote_web.units import send_reset_email, add_default_profile_image, save_profile_image
 
 
 from quote_web.data.users import User
@@ -87,11 +91,13 @@ def reqister():
         if db_sess.query(User).filter(User.email == form.email.data).first():
             flash('Такая почта уже зарегистрирована', category='error')
             return render_template('register.html', title='Регистрация', form=form)
+
         user = User(
             name=form.name.data,
             surname=form.surname.data,
             email=form.email.data,
-            nick_name=form.nick_name.data
+            nick_name=form.nick_name.data,
+            user_photo='default.png'
         )
 
         checked = check_password(form.password.data)
@@ -102,19 +108,70 @@ def reqister():
         user.set_password(form.password.data)
         db_sess.add(user)
         db_sess.commit()
+
+        add_default_profile_image(user)
+
         login_user(user, remember=form.remember_me.data)
         return redirect('/')
     return render_template('register.html', title='Регистрация', form=form)
 
 
-@app.route('/about')
-def about():
-    return render_template('about.html', title='О нас')
+@app.route('/settings', methods=['GET', 'POST'])
+@login_required
+def settings():
+    form_nick_name = NewNickname()
+    form_new_password = NewPassword()
+    form_profile_photo = ProfilePhoto()
+
+    if form_nick_name.validate_on_submit():
+
+        nick_name = form_nick_name.nick_name.data
+
+        db_sess = db_session.create_session()
+
+        user = db_sess.query(User).filter(User.id == current_user.id).first()
+        user.nick_name = nick_name
+        flash('Никнейм успешно изменен', category='success')
+        db_sess.commit()
+
+        return redirect('/settings')
+
+    if form_new_password.validate_on_submit():
+
+        password = form_new_password.password.data
+        new_password = form_new_password.password_new.data
+
+        db_sess = db_session.create_session()
+        if not current_user.check_password(password):
+            flash('Неверный пароль.', category='error')
+            return redirect('/settings')
+
+        user = db_sess.query(User).filter(User.id == current_user.id).first()
+
+        user.set_password(new_password)
+        db_sess.commit()
+        flash('Пароль успешно изменен.', category='success')
+        return redirect('/settings')
+
+    if form_profile_photo.validate_on_submit():
+
+        db_sess = db_session.create_session()
+        user = db_sess.query(User).filter(User.id == current_user.id).first()
+
+        user.user_photo = save_profile_image(form_profile_photo.photo.data, user)
+        db_sess.commit()
+
+        flash('Фото профиля успешно изменено', category='success')
+        return redirect('/settings')
+
+    return render_template('settings.html', title='Настройки', form_nick_name=form_nick_name,
+                           form_new_password=form_new_password, form_profile_photo=form_profile_photo)
 
 
 @app.route('/profile')
 def profile():
     return render_template('profile.html', title='Профиль')
+
 
 @app.route('/quote/<int:id>', methods=['GET', 'POST'])
 def quote(id):
