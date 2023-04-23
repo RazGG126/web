@@ -43,8 +43,7 @@ class User(SqlAlchemyBase, UserMixin):
         return check_password_hash(self.hashed_password, password)
     
     def generate_token(self):
-        token = jwt.enco
-        de({'user_id': self.id, 'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=5)}, app.config['SECRET_KEY'])
+        token = jwt.encode({'user_id': self.id, 'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=5)}, app.config['SECRET_KEY'])
         return token
 
     @staticmethod

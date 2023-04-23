@@ -1,4 +1,4 @@
-from flask import render_template, redirect, request, abort, jsonify, flash
+from flask import render_template, redirect, abort, jsonify, flash
 from flask_login import login_user, logout_user, login_required, current_user
 
 from quote_web.forms.user import RegisterForm, LoginForm, ResetPasswordForm, UpdatePasswordForm
@@ -6,10 +6,8 @@ from quote_web.forms.settings import NewPassword, ProfilePhoto, NewNickname, Cha
 from quote_web.forms.quote import QuoteForm
 from quote_web.forms.comment import CommentForm
 
-
 from quote_web.units import send_reset_email, add_default_profile_image, delete_current_profile_image, \
     set_new_profile_image, is_valid_hex_code, check_password
-
 
 from quote_web.data.users import User
 from quote_web.data.quotes import Quote
@@ -352,6 +350,9 @@ def reset_password():
 
 @app.route('/update_password/<token>', methods=['GET', 'POST'])
 def update_password(token):
+
+    form = UpdatePasswordForm()
+
     user_id = User.verify_token(token)
 
     if user_id is None:
@@ -363,14 +364,14 @@ def update_password(token):
 
         if form.password.data != form.password_again.data:
             flash("Пароли не совпадают", category='error')
-            return render_template('update_password.html', title='Регистрация',
+            return render_template('update_password.html', title='Сброс пароля',
                                    form=form)
 
         checked = check_password(form.password.data)
 
         if not checked[0]:
             flash(checked[1], category='error')
-            return render_template('update_password.html', title='Регистрация',
+            return render_template('update_password.html', title='Сброс пароля',
                                    form=form)
 
         db_sess = db_session.create_session()
@@ -378,6 +379,7 @@ def update_password(token):
 
         user.set_password(form.password.data)
         db_sess.commit()
+
         flash('Пароль успешно обновлен. ')
         return redirect('/sign-in')
 
