@@ -3,6 +3,7 @@ import shutil
 import secrets
 
 from quote_web import mail
+from quote_web import load_dotenv
 
 from flask_mail import Message
 from flask import url_for, current_app
@@ -27,7 +28,7 @@ def send_reset_email(user):
 
 
 def add_default_profile_image(user):
-    img_name = 'default.png'
+    img_name = os.getenv('DEFAULT_USER_PROFILE')
     full_path = os.path.join(os.getcwd(), 'quote_web\\static', 'profiles_pics', str(user.id))
     if not os.path.exists(full_path):
         os.mkdir(full_path)
@@ -103,7 +104,7 @@ def check_password(password):
                 recommendations.append(f'добавить 1 {message}')
 
         if recommendations:
-            return False, "Слабый пароль. Рекомендации: " + ", ".join(recommendations)
+            return False, 'Слабый пароль. Рекомендации: ' + ", ".join(recommendations)
         else:
             return True, 'Сильный пароль.'
 
