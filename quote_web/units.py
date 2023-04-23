@@ -40,19 +40,22 @@ def add_default_profile_image(user):
 
 
 def set_new_profile_image(form_picture, user):
-    random_hex = secrets.token_hex(16)
-    _, f_ext = os.path.splitext(form_picture.filename)
-    picture_fn = random_hex + f_ext
-    full_path = os.path.join(current_app.root_path, 'static', 'profiles_pics', str(user.id), 'profile_images')
-    if not os.path.exists(full_path):
-        os.mkdir(full_path)
-    else:
-        for f in os.listdir(full_path):
-            os.remove(os.path.join(full_path, f))
+    try:
+        random_hex = secrets.token_hex(16)
+        _, f_ext = os.path.splitext(form_picture.filename)
+        picture_fn = random_hex + f_ext
+        full_path = os.path.join(current_app.root_path, 'static', 'profiles_pics', str(user.id), 'profile_images')
+        if not os.path.exists(full_path):
+            os.mkdir(full_path)
+        else:
+            for f in os.listdir(full_path):
+                os.remove(os.path.join(full_path, f))
 
-    picture_path = os.path.join(full_path, picture_fn)
-    img = Image.open(form_picture)
-    img.resize((100, 100)).save(picture_path)
+        picture_path = os.path.join(full_path, picture_fn)
+        img = Image.open(form_picture)
+        img.resize((100, 100)).save(picture_path)
+    except:
+        return False
 
     return picture_fn
 

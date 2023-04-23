@@ -2,9 +2,13 @@
 
 {% block nav %}
     <li><a class="navig nav-link fw-bold py-1 px-0" aria-current="page" href="/">Главная</a></li>
-    <li><a class="navig nav-link fw-bold py-1 px-0" href="/settings">Настройки</a></li>
     {% if current_user.is_authenticated %}
-        <li><a class="navig nav-link fw-bold py-1 px-0 active" href="/profile"><i class="fa-regular fa-user fa-sm"></i> {{ current_user.nick_name }}</a></li>
+        <li><a class="navig nav-link fw-bold py-1 px-0" href="/settings">Настройки</a></li>
+    {% else %}
+        <li><a class="navig nav-link fw-bold py-1 px-0" href="/sign-in">Настройки</a></li>
+    {% endif %}
+    {% if current_user.is_authenticated %}
+        <li><a class="navig nav-link fw-bold py-1 px-0 active" href="/profile/{{current_user.id}}"><i class="fa-regular fa-user fa-sm"></i> {{ current_user.nick_name }}</a></li>
     {% else %}
         <li><a class="navig nav-link fw-bold py-1 px-0" href="/sign-in"><i class="fa-regular fa-user fa-sm"></i> Войти</a></li>
     {% endif %}
@@ -15,7 +19,7 @@
     <div class="container">
         <div class="profile_main">
             <div class="about">
-                <div class="col-12 mb-2"><img class="profile_img" src="{{url_for('static', filename='profiles_pics/' + current_user.id|string + '/profile_images/' + current_user.user_photo)}}"></div>
+                <div class="col-12 mb-2"><img class="profile_img" src="{{url_for('static', filename='profiles_pics/' + user.id|string + '/profile_images/' + user.user_photo)}}"></div>
                 <div class="col-12"><h2>{{user.nick_name}}</h2></div>
                 <div class="col-12"><p class="lead with-us-about-profile">на сайте с {{user.created_date.strftime('%Y.%m.%d')}}</p></div>
                 <div class="row justify-content-center mb-3">
@@ -102,15 +106,15 @@
                 <div class="item_comments row">
                     {% for quote in user.quotes%}
                         <div class="quote_profile row">
-                            {% if user.id == quote.user.id %}
-                            <a class="delete" href="/quotes/delete/{{quote.id}}/0"><i class="fa-solid fa-xmark fa-lg" style="color: #ff0000;"></i></a>
+                            {% if current_user.id == quote.user.id %}
+                                <a class="delete" href="/quotes/delete/{{quote.id}}/0"><i class="fa-solid fa-xmark fa-lg" style="color: #ff0000;"></i></a>
                             {% endif %}
                             <div class="quote-content col-12 col-sm-8 col-md-9 col-lg-9">
                                 <a class="quote-text-h3" href="/quote/{{quote.id}}">&#10077;{{quote.content}}&#10078;</a>
                                 <p class="fw-light">{{quote.author}}</p>
                             </div>
                             <div class="author-quote col-12 col-sm-4 col-md-3 col-lg-3">
-                                <h4 class="text-center">{{quote.user.nick_name}}</h4>
+                                <h4 class="text-center"><a class="author-link-text-quote" href="/profile/{{quote.user.id}}">{{quote.user.nick_name}}</a></h4>
                                 <div class="indicators">
                                     <p class="indicator-left"><i class="fa-regular fa-comment" style="color: #ffa50a;"></i> {{quote.comments_number}}</p>
                                     {% if user.id in quote.likes|map(attribute="user_id")|list %}
@@ -125,7 +129,9 @@
                 </div>
             </div>
         {% endif %}
-
+        {% if current_user.id == user.id %}
+            <p><a class="text_link" href="/sign-out">Выйти</a> из аккаунта</p>
+        {% endif %}
     </div>
 
 {% endblock %}

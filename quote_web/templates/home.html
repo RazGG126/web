@@ -2,9 +2,13 @@
 
 {% block nav %}
     <li><a class="navig nav-link fw-bold py-1 px-0 active" aria-current="page" href="/">Главная</a></li>
-    <li><a class="navig nav-link fw-bold py-1 px-0" href="/settings">Настройки</a></li>
     {% if current_user.is_authenticated %}
-        <li><a class="navig nav-link fw-bold py-1 px-0" href="/profile"><i class="fa-regular fa-user fa-sm"></i> {{ current_user.nick_name }}</a></li>
+        <li><a class="navig nav-link fw-bold py-1 px-0" href="/settings">Настройки</a></li>
+    {% else %}
+        <li><a class="navig nav-link fw-bold py-1 px-0" href="/sign-in">Настройки</a></li>
+    {% endif %}
+    {% if current_user.is_authenticated %}
+        <li><a class="navig nav-link fw-bold py-1 px-0" href="/profile/{{current_user.id}}"><i class="fa-regular fa-user fa-sm"></i> {{ current_user.nick_name }}</a></li>
     {% else %}
         <li><a class="navig nav-link fw-bold py-1 px-0" href="/sign-in"><i class="fa-regular fa-user fa-sm"></i> Войти</a></li>
     {% endif %}
@@ -37,7 +41,7 @@
                     <p class="fw-light">{{item.author}}</p>
                 </div>
                 <div class="author-quote col-12 col-sm-4 col-md-3 col-lg-3">
-                    <h4 class="text-center">{{item.user.nick_name}}</h4>
+                    <h4 class="text-center"><a class="author-link-text-quote" href="/profile/{{item.user.id}}">{{item.user.nick_name}}</a></h4>
                     <div class="indicators">
                         <p class="indicator-left"><i class="fa-regular fa-comment" style="color: #ffa50a;"></i> {{item.comments_number}}</p>
                         {% if current_user.id in item.likes|map(attribute="user_id")|list %}

@@ -282,7 +282,7 @@ input[type='checkbox'] {
 
 .quote_profile{
     border-radius: none;
-    margin-bottom: 100px;
+    margin-bottom: 50px;
     border-right: 5px solid  rgba(255, 165, 0, 0.8);
     border-left: 5px solid  rgba(255, 165, 0, 0.8);
     margin-left: 5px;
@@ -381,6 +381,28 @@ input[type='checkbox'] {
     color: #FFA500;
 }
 
+.author-link-text-quote{
+    text-decoration: none;
+    color: white;
+    transition: .3s;
+}
+
+.author-link-text-quote:hover{
+    cursor: pointer;
+    color: #FFA500;
+}
+
+.author-link-text-comment{
+    text-decoration: none;
+    color: white;
+    font-size: 20px;
+    transition: .3s;
+}
+
+.author-link-text-comment:hover{
+    cursor: pointer;
+    color: #FFA500;
+}
 /* SEND COMMENT BUTTON*/
 
 .send-button{
@@ -418,7 +440,6 @@ input[type='checkbox'] {
     margin-bottom: 50px;
     margin-top: 50px;
 }
-
 
 .item_comments{
     width: 100%;

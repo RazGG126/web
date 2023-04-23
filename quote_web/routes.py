@@ -98,7 +98,6 @@ def reqister():
             email=form.email.data,
             nick_name=form.nick_name.data,
         )
-        user.user_phot = add_default_profile_image(user)
 
         checked = check_password(form.password.data)
 
@@ -107,6 +106,10 @@ def reqister():
             return render_template('register.html', title='Регистрация', form=form)
         user.set_password(form.password.data)
         db_sess.add(user)
+
+        db_sess.commit()
+
+        user.user_photo = add_default_profile_image(user)
 
         db_sess.commit()
 
@@ -160,8 +163,15 @@ def settings():
 
         db_sess = db_session.create_session()
         user = db_sess.query(User).filter(User.id == current_user.id).first()
-        user.user_photo = set_new_profile_image(form_profile_photo.photo.data, user)
+        photo = set_new_profile_image(form_profile_photo.photo.data, user)
+
+        if not photo:
+            flash('Что-то пошло не так. Попробуйте ещё раз.', category='error')
+            return redirect('/settings')
+
+        user.user_photo = photo
         db_sess.commit()
+
         flash('Фото профиля успешно изменено', category='success')
         return redirect('/settings')
 
@@ -185,10 +195,16 @@ def delete_profile_img():
     return redirect('/settings')
 
 
-@app.route('/profile')
-@login_required
-def profile():
-    return render_template('profile.html', title='Профиль', user=current_user)
+@app.route('/profile/<int:user_id>')
+def profile(user_id):
+
+    db_sess = db_session.create_session()
+    user = db_sess.query(User).filter(User.id == user_id).first()
+
+    if not user:
+        return abort(404)
+
+    return render_template('profile.html', title='Профиль', user=user)
 
 
 @app.route('/quote/<int:id>', methods=['GET', 'POST'])
