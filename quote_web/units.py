@@ -3,7 +3,6 @@ import shutil
 import secrets
 
 from quote_web import mail
-from quote_web import load_dotenv
 
 from flask_mail import Message
 from flask import url_for, current_app
