@@ -370,13 +370,13 @@ input[type='checkbox'] {
     justify-content: space-between;
 }
 
-/* TEXT BOTTOM OF REG|LOG PAGES*/
+/* LINK TEXT CUSTOM */
 
-.reg-login-text{
+.text_link{
     color: white;
 }
 
-.reg-login-text:hover{
+.text_link:hover{
     cursor: pointer;
     color: #FFA500;
 }

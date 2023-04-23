@@ -16,14 +16,14 @@
         <div class="profile_main">
             <div class="about">
                 <div class="col-12 mb-2"><img class="profile_img" src="{{url_for('static', filename='profiles_pics/' + current_user.id|string + '/profile_images/' + current_user.user_photo)}}"></div>
-                <div class="col-12"><h2>{{current_user.nick_name}}</h2></div>
-                <div class="col-12"><p class="lead with-us-about-profile">на сайте с {{current_user.created_date.strftime('%Y.%m.%d')}}</p></div>
+                <div class="col-12"><h2>{{user.nick_name}}</h2></div>
+                <div class="col-12"><p class="lead with-us-about-profile">на сайте с {{user.created_date.strftime('%Y.%m.%d')}}</p></div>
                 <div class="row justify-content-center mb-3">
                     <div class="col-3 text-end">
-                        <p class="fw-light">Число <i class="fa-regular fa-comment" style="color: #ffa50a;"></i> {{current_user.comments|length}}</p>
+                        <p class="fw-light">Число <i class="fa-regular fa-comment" style="color: #ffa50a;"></i> {{user.comments|length}}</p>
                     </div>
                     <div class="col-3 text-start">
-                        <p class="fw-light">Число <i class="fa-regular fa-heart profile" style="color: #ffa50a;"></i> {{current_user.likes|length}}</p>
+                        <p class="fw-light">Число <i class="fa-regular fa-heart profile" style="color: #ffa50a;"></i> {{user.likes|length}}</p>
                     </div>
                 </div>
             </div>
@@ -87,18 +87,22 @@
 
         </div>
         <div class="row mb-4">
-            <h3 class="comment_text text-center">Ваши цитаты - {{current_user.quotes|length}}:</h3>
+            {% if current_user.id == user.id %}
+                <h3 class="comment_text text-center">Ваши цитаты - {{user.quotes|length}}:</h3>
+            {% else %}
+                <h3 class="comment_text text-center">Цитаты пользователя - {{user.quotes|length}}:</h3>
+            {% endif %}
         </div>
-        {% if current_user.quotes|length == 0 %}
+        {% if user.quotes|length == 0 %}
             <div class="no-quote">
                 <p class="lead">У вас ещё нет цитат.</p>
             </div>
         {% else %}
             <div class="comments_content justify-content-center">
                 <div class="item_comments row">
-                    {% for quote in current_user.quotes%}
+                    {% for quote in user.quotes%}
                         <div class="quote_profile row">
-                            {% if current_user.id == quote.user.id %}
+                            {% if user.id == quote.user.id %}
                             <a class="delete" href="/quotes/delete/{{quote.id}}/0"><i class="fa-solid fa-xmark fa-lg" style="color: #ff0000;"></i></a>
                             {% endif %}
                             <div class="quote-content col-12 col-sm-8 col-md-9 col-lg-9">
@@ -109,7 +113,7 @@
                                 <h4 class="text-center">{{quote.user.nick_name}}</h4>
                                 <div class="indicators">
                                     <p class="indicator-left"><i class="fa-regular fa-comment" style="color: #ffa50a;"></i> {{quote.comments_number}}</p>
-                                    {% if current_user.id in quote.likes|map(attribute="user_id")|list %}
+                                    {% if user.id in quote.likes|map(attribute="user_id")|list %}
                                     <p class="indicator-right"><i class="fa-solid fa-heart" id="like-button-{{quote.id}}" onclick="like({{quote.id}})" style="color: #ffa50a;"></i> <span id="likes-count-{{quote.id}}">{{quote.likes_number}}</span></p>
                                     {% else %}
                                     <p class="indicator-right"><i class="fa-regular fa-heart" id="like-button-{{quote.id}}" onclick="like({{quote.id}})" style="color: #ffa50a;"></i> <span id="likes-count-{{quote.id}}">{{quote.likes_number}}</span></p>

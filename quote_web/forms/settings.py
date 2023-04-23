@@ -17,6 +17,6 @@ class NewPassword(FlaskForm):
 
 class ProfilePhoto(FlaskForm):
     photo = FileField("Выберите файл...", validators=[
-        FileRequired(), FileAllowed(['jpg', 'png', 'jpeg'], 'Запрещенный формат файла.'),
+        FileRequired(), FileAllowed(['jpg', 'png'], 'Запрещенный формат файла.'),
         FileSize(max_size=1048576, message='Максимальный размер файла - 1 Мб.')])
     submit = SubmitField('Загрузить')

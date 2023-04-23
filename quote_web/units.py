@@ -27,15 +27,19 @@ def send_reset_email(user):
 
 
 def add_default_profile_image(user):
+    img_name = 'default.png'
     full_path = os.path.join(os.getcwd(), 'quote_web\\static', 'profiles_pics', str(user.id))
     if not os.path.exists(full_path):
         os.mkdir(full_path)
         full_path += '\\profile_images'
         os.mkdir(full_path)
-    shutil.copy(f'{os.getcwd()}\\quote_web\\static\\profiles_pics\\default.png', full_path)
+    else:
+        full_path += '\\profile_images'
+    shutil.copy(f'{os.getcwd()}\\quote_web\\static\\profiles_pics\\{img_name}', full_path)
+    return img_name
 
 
-def save_profile_image(form_picture, user):
+def set_new_profile_image(form_picture, user):
     random_hex = secrets.token_hex(16)
     _, f_ext = os.path.splitext(form_picture.filename)
     picture_fn = random_hex + f_ext
@@ -51,4 +55,17 @@ def save_profile_image(form_picture, user):
     img.resize((100, 100)).save(picture_path)
 
     return picture_fn
+
+
+def delete_current_profile_image(user):
+    try:
+        full_path = os.path.join(current_app.root_path, 'static', 'profiles_pics', str(user.id), 'profile_images')
+        for images in os.listdir(full_path):
+            os.remove(os.path.join(full_path, images))
+    except:
+        return False
+    return True
+
+
+
 

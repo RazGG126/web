@@ -9,7 +9,7 @@ from quote_web.forms.quote import QuoteForm
 from quote_web.forms.comment import CommentForm
 
 
-from quote_web.units import send_reset_email, add_default_profile_image, save_profile_image
+from quote_web.units import send_reset_email, add_default_profile_image, delete_current_profile_image, set_new_profile_image
 
 
 from quote_web.data.users import User
@@ -97,8 +97,8 @@ def reqister():
             surname=form.surname.data,
             email=form.email.data,
             nick_name=form.nick_name.data,
-            user_photo='default.png'
         )
+        user.user_phot = add_default_profile_image(user)
 
         checked = check_password(form.password.data)
 
@@ -107,9 +107,8 @@ def reqister():
             return render_template('register.html', title='Регистрация', form=form)
         user.set_password(form.password.data)
         db_sess.add(user)
-        db_sess.commit()
 
-        add_default_profile_image(user)
+        db_sess.commit()
 
         login_user(user, remember=form.remember_me.data)
         return redirect('/')
@@ -146,8 +145,12 @@ def settings():
             flash('Неверный пароль.', category='error')
             return redirect('/settings')
 
-        user = db_sess.query(User).filter(User.id == current_user.id).first()
+        checked = check_password(new_password)
+        if not checked[0]:
+            flash(checked[1], category='error')
+            return redirect('/settings')
 
+        user = db_sess.query(User).filter(User.id == current_user.id).first()
         user.set_password(new_password)
         db_sess.commit()
         flash('Пароль успешно изменен.', category='success')
@@ -157,10 +160,8 @@ def settings():
 
         db_sess = db_session.create_session()
         user = db_sess.query(User).filter(User.id == current_user.id).first()
-
-        user.user_photo = save_profile_image(form_profile_photo.photo.data, user)
+        user.user_photo = set_new_profile_image(form_profile_photo.photo.data, user)
         db_sess.commit()
-
         flash('Фото профиля успешно изменено', category='success')
         return redirect('/settings')
 
@@ -168,9 +169,26 @@ def settings():
                            form_new_password=form_new_password, form_profile_photo=form_profile_photo)
 
 
+@app.route('/delete_profile_img')
+@login_required
+def delete_profile_img():
+    db_sess = db_session.create_session()
+    user = db_sess.query(User).filter(User.id == current_user.id).first()
+    if delete_current_profile_image(user):
+        user.user_photo = add_default_profile_image(user)
+        db_sess.commit()
+
+        flash('Фото профиля успешно удалено', category='success')
+        return redirect('/settings')
+
+    flash('Что-то пошло не так. Попробуйте ещё раз.', category='error')
+    return redirect('/settings')
+
+
 @app.route('/profile')
+@login_required
 def profile():
-    return render_template('profile.html', title='Профиль')
+    return render_template('profile.html', title='Профиль', user=current_user)
 
 
 @app.route('/quote/<int:id>', methods=['GET', 'POST'])
