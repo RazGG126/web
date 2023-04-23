@@ -14,7 +14,6 @@ load_dotenv()
 login_manager = LoginManager()
 login_manager.init_app(app)
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
-
 db_session.global_init("quote_web/db/quotes.db")
 
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
