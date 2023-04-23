@@ -23,6 +23,9 @@ class User(SqlAlchemyBase, UserMixin):
 
     user_photo = sqlalchemy.Column(sqlalchemy.String)
 
+    first_blob_color = sqlalchemy.Column(sqlalchemy.String, nullable=False)
+    second_blob_color = sqlalchemy.Column(sqlalchemy.String, nullable=False)
+
     created_date = sqlalchemy.Column(sqlalchemy.DateTime,
                                      default=datetime.datetime.now)
 

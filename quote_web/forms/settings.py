@@ -20,3 +20,9 @@ class ProfilePhoto(FlaskForm):
         FileRequired(), FileAllowed(['jpg', 'png'], 'Запрещенный формат файла.'),
         FileSize(max_size=1048576, message='Максимальный размер файла - 1 Мб.')])
     submit = SubmitField('Загрузить')
+
+
+class ChangeBlobColor(FlaskForm):
+    first_color = StringField('Первый hex цвет', validators=[DataRequired(), Length(min=3, max=6)])
+    second_color = StringField('Второй hex цвет', validators=[DataRequired(), Length(min=3, max=6)])
+    submit = SubmitField('Перекрасить')

@@ -70,5 +70,42 @@ def delete_current_profile_image(user):
     return True
 
 
+def is_valid_hex_code(string):
+    if string[0] == '#':
+        return False
+
+    if not(len(string) == 3 or len(string) == 6):
+        return False
+
+    for i in range(len(string)):
+        if not(('0' <= string[i] <= '9') or ('a' <= string[i] <= 'f') or (string[i] >= 'A' or string[i] <= 'F')):
+            return False
+
+    return True
+
+
+def check_password(password):
+    digits = '1234567890'
+    upper_letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    lower_letters = 'abcdefghijklmnopqrstuvwxyz'
+    symbols = '!@#$%^&*()-+'
+    acceptable = digits + upper_letters + lower_letters + symbols
+
+    passwd = set(password)
+    if any(char not in acceptable for char in passwd):
+        return False, 'Ошибка. Запрещенный спецсимвол'
+    else:
+        recommendations = []
+        for what, message in ((digits, 'цифру'),
+                              (upper_letters, 'заглавную букву'),
+                              (lower_letters, 'строчную букву')):
+            if all(char not in what for char in passwd):
+                recommendations.append(f'добавить 1 {message}')
+
+        if recommendations:
+            return False, "Слабый пароль. Рекомендации: " + ", ".join(recommendations)
+        else:
+            return True, 'Сильный пароль.'
+
 
 

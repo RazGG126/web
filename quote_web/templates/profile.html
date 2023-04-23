@@ -20,14 +20,17 @@
         <div class="profile_main">
             <div class="about">
                 <div class="col-12 mb-2"><img class="profile_img" src="{{url_for('static', filename='profiles_pics/' + user.id|string + '/profile_images/' + user.user_photo)}}"></div>
-                <div class="col-12"><h2>{{user.nick_name}}</h2></div>
-                <div class="col-12"><p class="lead with-us-about-profile">на сайте с {{user.created_date.strftime('%Y.%m.%d')}}</p></div>
+                <div class="col-12"><h2 class="nick_name_profile">{{user.nick_name}}</h2></div>
+                <div class="row justify-content-center">
+                    <p class="fw-light">{{user.name}} {{user.surname}}</p>
+                </div>
+                <div class="col-12"><p class="lead">на сайте с {{user.created_date.strftime('%Y.%m.%d')}}</p></div>
                 <div class="row justify-content-center mb-3">
                     <div class="col-3 text-end">
-                        <p class="fw-light">Число <i class="fa-regular fa-comment" style="color: #ffa50a;"></i> {{user.comments|length}}</p>
+                        <p class="fw-light-score">Число <i class="fa-regular fa-comment" style="color: #ffa50a;"></i> {{user.comments|length}}</p>
                     </div>
                     <div class="col-3 text-start">
-                        <p class="fw-light">Число <i class="fa-regular fa-heart profile" style="color: #ffa50a;"></i> {{user.likes|length}}</p>
+                        <p class="fw-light-score">Число <i class="fa-regular fa-heart profile" style="color: #ffa50a;"></i> {{user.likes|length}}</p>
                     </div>
                 </div>
             </div>
@@ -35,8 +38,8 @@
                 <svg class="svg_blob" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="blobSvg">
                     <defs>
                       <linearGradient id="gradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                        <stop offset="0%" style="stop-color: rgb(255, 0, 153);"></stop>
-                        <stop offset="100%" style="stop-color: rgb(153, 0, 153);"></stop>
+                        <stop offset="0%" style="stop-color: #{{user.first_blob_color}};"></stop>
+                        <stop offset="100%" style="stop-color: #{{user.second_blob_color}};"></stop>
                       </linearGradient>
                     </defs>
                      <path fill="url(#gradient)">>
@@ -57,8 +60,8 @@
                 <svg class="svg_blob" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="blobSvg">
                         <defs>
                          <linearGradient id="gradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                           <stop offset="0%" style="stop-color: rgb(255, 0, 153);"></stop>
-                           <stop offset="100%" style="stop-color: rgb(153, 0, 153);"></stop>
+                           <stop offset="0%" style="stop-color: #{{user.first_blob_color}};"></stop>
+                           <stop offset="100%" style="stop-color: #{{user.second_blob_color}};"></stop>
                          </linearGradient>
                         </defs>
 <!--                     <path fill="url(#gradient)">>-->
@@ -118,9 +121,9 @@
                                 <div class="indicators">
                                     <p class="indicator-left"><i class="fa-regular fa-comment" style="color: #ffa50a;"></i> {{quote.comments_number}}</p>
                                     {% if user.id in quote.likes|map(attribute="user_id")|list %}
-                                    <p class="indicator-right"><i class="fa-solid fa-heart" id="like-button-{{quote.id}}" onclick="like({{quote.id}})" style="color: #ffa50a;"></i> <span id="likes-count-{{quote.id}}">{{quote.likes_number}}</span></p>
+                                        <p class="indicator-right"><i class="fa-solid fa-heart" id="like-button-{{quote.id}}" onclick="like({{quote.id}})" style="color: #ffa50a;"></i> <span id="likes-count-{{quote.id}}">{{quote.likes_number}}</span></p>
                                     {% else %}
-                                    <p class="indicator-right"><i class="fa-regular fa-heart" id="like-button-{{quote.id}}" onclick="like({{quote.id}})" style="color: #ffa50a;"></i> <span id="likes-count-{{quote.id}}">{{quote.likes_number}}</span></p>
+                                        <p class="indicator-right"><i class="fa-regular fa-heart" id="like-button-{{quote.id}}" onclick="like({{quote.id}})" style="color: #ffa50a;"></i> <span id="likes-count-{{quote.id}}">{{quote.likes_number}}</span></p>
                                     {% endif %}
                                 </div>
                             </div>

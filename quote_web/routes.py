@@ -4,20 +4,19 @@ from flask import render_template, redirect, request, abort, jsonify, flash
 from flask_login import login_user, logout_user, login_required, current_user
 
 from quote_web.forms.user import RegisterForm, LoginForm, ResetPasswordForm, UpdatePasswordForm
-from quote_web.forms.settings import NewPassword, ProfilePhoto, NewNickname
+from quote_web.forms.settings import NewPassword, ProfilePhoto, NewNickname, ChangeBlobColor
 from quote_web.forms.quote import QuoteForm
 from quote_web.forms.comment import CommentForm
 
 
-from quote_web.units import send_reset_email, add_default_profile_image, delete_current_profile_image, set_new_profile_image
+from quote_web.units import send_reset_email, add_default_profile_image, delete_current_profile_image, \
+    set_new_profile_image, is_valid_hex_code, check_password
 
 
 from quote_web.data.users import User
 from quote_web.data.quotes import Quote
 from quote_web.data.comments import Comment
 from quote_web.data.likes import Like
-
-from quote_web.check_password import check_password
 
 from quote_web import app, db_session, login_manager
 
@@ -97,6 +96,8 @@ def reqister():
             surname=form.surname.data,
             email=form.email.data,
             nick_name=form.nick_name.data,
+            first_blob_color='ff0099',
+            second_blob_color='990099'
         )
 
         checked = check_password(form.password.data)
@@ -124,6 +125,7 @@ def settings():
     form_nick_name = NewNickname()
     form_new_password = NewPassword()
     form_profile_photo = ProfilePhoto()
+    form_change_blob_color = ChangeBlobColor()
 
     if form_nick_name.validate_on_submit():
 
@@ -131,15 +133,18 @@ def settings():
 
         db_sess = db_session.create_session()
 
+        if db_sess.query(User).filter(User.nick_name == nick_name).first():
+            flash('Имя пользователя уже используется', category='error')
+            return redirect('/settings')
+
         user = db_sess.query(User).filter(User.id == current_user.id).first()
         user.nick_name = nick_name
-        flash('Никнейм успешно изменен', category='success')
         db_sess.commit()
 
+        flash('Никнейм успешно изменен', category='success')
         return redirect('/settings')
 
     if form_new_password.validate_on_submit():
-
         password = form_new_password.password.data
         new_password = form_new_password.password_new.data
 
@@ -160,7 +165,6 @@ def settings():
         return redirect('/settings')
 
     if form_profile_photo.validate_on_submit():
-
         db_sess = db_session.create_session()
         user = db_sess.query(User).filter(User.id == current_user.id).first()
         photo = set_new_profile_image(form_profile_photo.photo.data, user)
@@ -175,8 +179,29 @@ def settings():
         flash('Фото профиля успешно изменено', category='success')
         return redirect('/settings')
 
+    if form_change_blob_color.validate_on_submit():
+
+        hex_code_1 = form_change_blob_color.first_color.data
+        hex_code_2 = form_change_blob_color.second_color.data
+
+        if is_valid_hex_code(hex_code_1) and is_valid_hex_code(hex_code_2):
+            db_sess = db_session.create_session()
+            user = db_sess.query(User).filter(User.id == current_user.id).first()
+
+            user.first_blob_color = hex_code_1
+            user.second_blob_color = hex_code_2
+
+            db_sess.commit()
+
+            flash('Цвет успешно изменен.', category='success')
+            return redirect('/settings')
+
+        flash('Неверный формат hex.', category='error')
+        return redirect('/settings')
+
     return render_template('settings.html', title='Настройки', form_nick_name=form_nick_name,
-                           form_new_password=form_new_password, form_profile_photo=form_profile_photo)
+                           form_new_password=form_new_password, form_profile_photo=form_profile_photo,
+                           form_change_blob_color=form_change_blob_color)
 
 
 @app.route('/delete_profile_img')
@@ -192,6 +217,19 @@ def delete_profile_img():
         return redirect('/settings')
 
     flash('Что-то пошло не так. Попробуйте ещё раз.', category='error')
+    return redirect('/settings')
+
+
+@app.route('/reset_blob_color')
+@login_required
+def reset_blob_color():
+    db_sess = db_session.create_session()
+    user = db_sess.query(User).filter(User.id == current_user.id).first()
+    user.first_blob_color = 'ff0099'
+    user.second_blob_color = '990099'
+    db_sess.commit()
+
+    flash('Цвет успешно сброшен.', category='success')
     return redirect('/settings')
 
 

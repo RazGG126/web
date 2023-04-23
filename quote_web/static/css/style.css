@@ -555,3 +555,24 @@ input[type='checkbox'] {
     height: min(20%, 100px);
     border-radius: 50%;
 }
+
+.fw-light{
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.fw-light-score{
+    font-size: 15px;
+}
+
+.lead{
+    color: rgba(255, 255, 255, 0.95);
+    margin-bottom: 10px;
+    margin-top: 0;
+    font-size: 18px;
+    letter-spacing: 0.5px
+}
+
+.nick_name_profile{
+    margin-bottom: 0;
+}
