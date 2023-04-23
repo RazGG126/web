@@ -1,5 +1,3 @@
-import sqlite3
-
 from flask import render_template, redirect, request, abort, jsonify, flash
 from flask_login import login_user, logout_user, login_required, current_user
 
@@ -250,6 +248,10 @@ def quote(id):
     form = CommentForm()
     db_sess = db_session.create_session()
     quote = db_sess.query(Quote).filter(Quote.id == id).first()
+
+    if not quote:
+        return abort(404)
+
     comments = db_sess.query(Comment).order_by(Comment.id.desc()).filter(Comment.quote_id == id).all()
     quote.comments_number = len(comments)
     db_sess.commit()
@@ -380,3 +382,13 @@ def update_password(token):
         return redirect('/sign-in')
 
     return render_template('update_password.html', title='Сброс пароля', form=form)
+
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html', title='Ошибка'), 404
+
+
+@app.errorhandler(405)
+def page_not_found(e):
+    return render_template('405.html', title='Ошибка'), 405
