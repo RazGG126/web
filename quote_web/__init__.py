@@ -1,4 +1,6 @@
-import config
+import os
+
+from quote_web import config
 
 from flask import Flask
 from flask_login import LoginManager
